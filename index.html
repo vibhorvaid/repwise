@@ -1,0 +1,1375 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>Repwise Gym ERP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;800&family=IBM+Plex+Mono:wght@500&display=swap">
+<meta name="description" content="Repwise – gym ERP for memberships, collections, classes, POS and member app.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23C8102E%27/%3E%3Ctext x=%2716%27 y=%2723%27 text-anchor=%27middle%27 font-family=%27Arial%27 font-weight=%27900%27 font-size=%2718%27 fill=%27white%27%3ER%3C/text%3E%3C/svg%3E">
+</head><body>
+<style>
+/* Layout: rubber-floor rail + chalk work surface; page bands carry barbell-knurl texture and equipment art.
+   Scheme: Crimson and steel. The nine hue slots are remapped onto crimson, rose, steel and charcoal steps:
+   red = crimson, green = deep crimson, orange = bright crimson, pink = rose, blue = charcoal, purple = dark steel,
+   yellow = steel, teal = light steel, slate = near-black. */
+:root{
+  --bg:#F4F3F3; --surface:#FFFFFF; --surface-2:#ECEAEA; --line:#DEDADB;
+  --ink:#1C1A1B; --ink-2:#4A4648; --ink-3:#7A7577;
+  --rail:#1C1A1B; --rail-2:#2C292B; --rail-ink:#EEEBEC; --rail-ink-2:#9A9497;
+  --accent:#C8102E; --accent-ink:#FFFFFF; --accent-soft:#F8DDE1;
+  --red:#C8102E; --blue:#3A3638; --yellow:#7D8590; --green:#A50D26; --orange:#E0485A; --purple:#5B6470; --pink:#D9707C; --teal:#8C96A3; --slate:#2A2729;
+  --on-k:#FFFFFF;
+  --plate-white:#F4F4F4; --steel:#A9AFB7; --steel-d:#6D737C;
+  --c1:#C8102E; --c2:#7D8590; --c3:#3A3638;
+  --good:#1D7F45; --good-soft:#DFF2E6; --warn:#9A6400; --warn-soft:#FBEFD5; --bad:#C2302A; --bad-soft:#FBE3E1;
+  --sec:var(--blue);
+  --shadow:0 1px 2px rgba(20,24,33,.06),0 10px 30px rgba(20,24,33,.08);
+  --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111011; --surface:#1B191A; --surface-2:#252224; --line:#332F31;
+  --ink:#F1EFEF; --ink-2:#BDB7B9; --ink-3:#8C8688;
+  --rail:#0B0A0B; --rail-2:#1F1C1E; --rail-ink:#EEEBEC; --rail-ink-2:#8C8688;
+  --accent:#FF4D5E; --accent-ink:#1C0408; --accent-soft:#3D1A1F;
+  --red:#FF4D5E; --blue:#C2C7CE; --yellow:#9AA1AB; --green:#E0485A; --orange:#FF7A86; --purple:#B0B6BE; --pink:#F4A1AA; --teal:#8C96A3; --slate:#D5D8DC;
+  --on-k:#151314;
+  --plate-white:#DCDCDC; --steel:#8E949C; --steel-d:#5E636B;
+  --c1:#FF4D5E; --c2:#9AA1AB; --c3:#D5D8DC;
+  --good:#4FD18A; --good-soft:#153524; --warn:#F2BE4A; --warn-soft:#3A2D10; --bad:#FF7B73; --bad-soft:#401A18;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.3);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111011; --surface:#1B191A; --surface-2:#252224; --line:#332F31;
+  --ink:#F1EFEF; --ink-2:#BDB7B9; --ink-3:#8C8688;
+  --rail:#0B0A0B; --rail-2:#1F1C1E; --rail-ink:#EEEBEC; --rail-ink-2:#8C8688;
+  --accent:#FF4D5E; --accent-ink:#1C0408; --accent-soft:#3D1A1F;
+  --red:#FF4D5E; --blue:#C2C7CE; --yellow:#9AA1AB; --green:#E0485A; --orange:#FF7A86; --purple:#B0B6BE; --pink:#F4A1AA; --teal:#8C96A3; --slate:#D5D8DC;
+  --on-k:#151314;
+  --plate-white:#DCDCDC; --steel:#8E949C; --steel-d:#5E636B;
+  --c1:#FF4D5E; --c2:#9AA1AB; --c3:#D5D8DC;
+  --good:#4FD18A; --good-soft:#153524; --warn:#F2BE4A; --warn-soft:#3A2D10; --bad:#FF7B73; --bad-soft:#401A18;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.3);
+  color-scheme:dark}
+/* The rail and the loader are always dark, so they always use the bright steps */
+.rail,.loader{--red:#FF4D5E; --blue:#C2C7CE; --yellow:#9AA1AB; --green:#E0485A; --orange:#FF7A86; --purple:#B0B6BE; --pink:#F4A1AA; --teal:#A3AAB4; --slate:#D5D8DC; --plate-white:#E8E8E8; --steel:#8E949C; --steel-d:#5E636B}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;letter-spacing:.01em;margin:0;text-wrap:balance;line-height:1.05}
+h1{font-size:44px;font-weight:800} h2{font-size:21px} h3{font-size:17px;font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--f-mono);font-size:12.5px}
+.muted{color:var(--ink-3)} .ink2{color:var(--ink-2)}
+.eyebrow{font-size:11.5px;text-transform:uppercase;letter-spacing:.09em;font-weight:600;color:var(--ink-3)}
+
+/* Shell */
+.app{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100%}
+.rail{background-color:var(--rail);background-image:radial-gradient(rgba(255,255,255,.045) 1px,transparent 1.3px),radial-gradient(rgba(255,255,255,.025) 1px,transparent 1.3px);background-size:7px 7px,11px 11px;background-position:0 0,3px 5px;color:var(--rail-ink);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:18px;padding-block:20px;padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:14px;overflow-y:auto;z-index:30}
+.brand{display:flex;align-items:center;gap:10px;padding:0 8px}
+.brand svg{flex:none}
+.brand b{font-family:var(--f-display);font-size:27px;font-weight:800;letter-spacing:.02em;line-height:1}
+.brand small{display:block;font-size:11px;color:var(--rail-ink-2);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.navgroup{display:flex;flex-direction:column;gap:2px}
+.navgroup .eyebrow{color:var(--rail-ink-2);padding:0 10px 4px}
+.nav{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:9px;border:0;background:none;text-align:left;color:var(--rail-ink-2);font-weight:500;width:100%;transition:background .15s,color .15s}
+.nav svg{width:19px;height:19px;flex:none;fill:none;stroke:var(--k);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;opacity:.9}
+.nav:hover{background:var(--rail-2);color:var(--rail-ink)}
+.nav[aria-current="page"]{background:color-mix(in srgb,var(--k) 20%,var(--rail-2));color:#fff;box-shadow:inset 3px 0 0 var(--k)}
+.nav .count{margin-left:auto;font-size:12px;background:var(--k);color:#14171E;border-radius:99px;padding:0 7px;font-weight:700}
+.rail-foot{margin-top:auto;padding:12px;border-radius:12px;background:var(--rail-2);font-size:13px;color:var(--rail-ink-2);display:flex;flex-direction:column;gap:8px}
+.rail-foot b{color:var(--rail-ink)}
+
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding-block:11px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.topbar .gsearch{flex:1;min-width:0;max-width:420px;position:relative}
+.topbar .gsearch input{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px 8px 36px;min-height:38px}
+.topbar .gsearch svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--ink-3);fill:none;stroke-width:2}
+.topbar .spacer{flex:1}
+.menu-btn{display:none;border:1px solid var(--line);background:var(--surface);border-radius:9px;width:38px;height:38px;align-items:center;justify-content:center;flex:none}
+.menu-btn svg{width:18px;height:18px;stroke:currentColor;stroke-width:2;fill:none}
+.select{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 10px;min-height:38px}
+.main{padding-block:22px 32px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1320px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.main.enter>*{animation:rise .5s cubic-bezier(.2,.7,.2,1) both}
+.main.enter>*:nth-child(2){animation-delay:.05s}.main.enter>*:nth-child(3){animation-delay:.1s}.main.enter>*:nth-child(4){animation-delay:.15s}.main.enter>*:nth-child(5){animation-delay:.2s}.main.enter>*:nth-child(n+6){animation-delay:.25s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+.sample-note{font-size:12px;color:var(--ink-3);border:1px dashed var(--line);border-radius:99px;padding:2px 10px;white-space:nowrap}
+
+/* Page band */
+.band{position:relative;overflow:hidden;border-radius:20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center;padding:22px 26px;background:linear-gradient(115deg,color-mix(in srgb,var(--sec) 26%,var(--surface)) 0%,color-mix(in srgb,var(--sec) 9%,var(--surface)) 65%);border:1px solid color-mix(in srgb,var(--sec) 32%,var(--line))}
+.band::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:repeating-linear-gradient(45deg,color-mix(in srgb,var(--sec) 22%,transparent) 0 1px,transparent 1px 8px),repeating-linear-gradient(-45deg,color-mix(in srgb,var(--sec) 22%,transparent) 0 1px,transparent 1px 8px);-webkit-mask-image:linear-gradient(90deg,transparent 35%,#000 85%);mask-image:linear-gradient(90deg,transparent 35%,#000 85%)}
+.band>*{position:relative}
+.band .tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
+.band .tag i{width:10px;height:10px;border-radius:50%;background:var(--sec);box-shadow:0 0 0 3px color-mix(in srgb,var(--sec) 25%,transparent)}
+.band h1{margin-top:6px}
+.band p{margin:6px 0 0;color:var(--ink-2);max-width:62ch}
+.band .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.band-art svg{display:block;width:300px;max-width:100%;height:auto;overflow:visible}
+.band-art .cap{text-align:center;font-family:var(--f-display);font-weight:700;font-size:15px;color:var(--ink-2);margin-top:2px;letter-spacing:.03em}
+
+/* Primitives */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:9px;border:1px solid var(--line);background:var(--surface);padding:8px 13px;font-weight:600;font-size:14px;min-height:36px;white-space:nowrap;transition:transform .12s,filter .12s,border-color .12s}
+.btn:hover{border-color:var(--ink-3)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);box-shadow:0 2px 0 color-mix(in srgb,var(--accent) 55%,#000)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.primary:disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+.btn.sm{padding:5px 10px;min-height:30px;font-size:13px}
+.btn.ghost{background:none;border-color:transparent;color:var(--accent)}
+.btn.done{background:var(--good-soft);border-color:transparent;color:var(--good)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0}
+.panel-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.ph-ico{display:inline-flex;align-items:center;gap:9px}
+.ph-ico .ico{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--k);color:var(--on-k);flex:none;align-self:center}
+.ph-ico .ico svg{width:17px;height:17px;fill:currentColor}
+.grid{display:grid;gap:16px}
+.g-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g-main{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;border-radius:99px;padding:2px 9px;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill.good{background:var(--good-soft);color:var(--good)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.info{background:var(--accent-soft);color:var(--accent)}
+.pill.neutral{background:var(--surface-2);color:var(--ink-2)}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:5px 12px;font-size:13.5px;font-weight:500;transition:background .12s}
+.chip:hover{border-color:var(--ink-3)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip .n{opacity:.65;margin-left:4px}
+.avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;flex:none;color:#fff;font-family:var(--f-display);letter-spacing:.03em}
+.meter{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.meter>span{display:block;height:100%;border-radius:99px;background:var(--k,var(--accent))}
+
+/* KPI tiles */
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.kpi{position:relative;background:color-mix(in srgb,var(--k,var(--accent)) 7%,var(--surface));border:1px solid color-mix(in srgb,var(--k,var(--accent)) 24%,var(--line));border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0;transition:transform .15s}
+/* Tiles in a row share row tracks, so a two-line label pushes every number in that row down together */
+@supports (grid-template-rows:subgrid){.kpi{display:grid;grid-template-rows:subgrid;grid-row:span 4;row-gap:4px;align-content:start}}
+.kpi:hover{transform:translateY(-2px)}
+.kpi .ico{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:10px;background:var(--k);color:var(--on-k);display:grid;place-items:center;box-shadow:0 3px 0 color-mix(in srgb,var(--k) 55%,#000)}
+.kpi .ico svg{width:20px;height:20px;fill:currentColor}
+.kpi .ico b{font-family:var(--f-display);font-size:19px}
+.kpi .eyebrow{padding-right:42px}
+.kpi .v{font-family:var(--f-display);font-size:34px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;margin-top:2px}
+.kpi .d{font-size:13px;color:var(--ink-2)}
+.kpi .d b{font-weight:600}
+.up{color:var(--good)} .down{color:var(--bad)}
+
+/* Tables */
+.table-wrap{overflow-x:auto;margin:0 -18px;padding:0 18px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-3);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.r,th.r{text-align:right}
+tbody tr.click{cursor:pointer}
+tbody tr.click:hover td{background:color-mix(in srgb,var(--sec) 7%,var(--surface))}
+.who{display:flex;align-items:center;gap:10px}
+.who b{font-weight:600;display:block}
+.who small{color:var(--ink-3);font-size:12.5px}
+
+/* To-do list */
+.todo{display:flex;flex-direction:column}
+.todo button{display:grid;grid-template-columns:36px 1fr auto;align-items:center;gap:12px;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;padding:11px 4px;border-radius:0;transition:background .12s}
+.todo button:last-child{border-bottom:0}
+.todo button:hover{background:color-mix(in srgb,var(--k) 8%,transparent)}
+.todo .ic{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-family:var(--f-display);font-size:18px;background:var(--k);color:var(--on-k);box-shadow:0 3px 0 color-mix(in srgb,var(--k) 55%,#000)}
+.todo .ic svg{width:20px;height:20px;fill:currentColor}
+.todo small{display:block;color:var(--ink-3);font-size:13px}
+.todo .go{color:var(--ink-3);font-size:20px}
+
+/* Charts */
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart text{fill:var(--ink-3);font-size:11px;font-family:var(--f-body)}
+.chart .grid-l{stroke:var(--line);stroke-width:1}
+.chart .lbl{fill:var(--ink-2);font-weight:600}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--ink-2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12.5px;padding:7px 10px;border-radius:8px;z-index:80;max-width:240px;box-shadow:var(--shadow)}
+.tip b{display:block;font-size:13px}
+
+/* Feed */
+.feed{display:flex;flex-direction:column;gap:2px;max-height:300px;overflow:auto}
+.feed div{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:7px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.feed div.new{animation:flash 1.6s ease}
+@keyframes flash{from{background:var(--good-soft)}to{background:transparent}}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px var(--good-soft)}
+.dot.bad{background:var(--bad);box-shadow:0 0 0 3px var(--bad-soft)}
+
+/* Kanban */
+.kanban{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(236px,1fr);gap:12px;overflow-x:auto;padding-bottom:6px}
+.col{background:color-mix(in srgb,var(--k) 9%,var(--surface-2));border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px;min-height:200px;border-top:4px solid var(--k)}
+.col-h{display:flex;justify-content:space-between;align-items:center;padding:2px 4px 4px}
+.col-h h3{font-size:17px;display:flex;align-items:center;gap:7px}
+.col-h .cnt{font-family:var(--f-display);font-weight:700;background:var(--k);color:var(--on-k);border-radius:99px;min-width:24px;text-align:center;padding:0 7px;font-size:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:11px;display:flex;flex-direction:column;gap:7px;font-size:13.5px;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.card b{font-size:14.5px}
+.card .row{gap:6px}
+.src{font-size:11.5px;font-weight:700;border-radius:5px;padding:1px 7px;background:color-mix(in srgb,var(--s) 15%,var(--surface));color:var(--ink-2);border:1px solid color-mix(in srgb,var(--s) 35%,transparent)}
+
+/* Steps (reminder schedule) */
+.steps{display:flex;flex-direction:column}
+.step{display:grid;grid-template-columns:24px 70px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.step:last-child{border-bottom:0}
+.step .when{font-family:var(--f-display);font-weight:700;font-size:17px;line-height:1}
+.step .when small{display:block;font-family:var(--f-body);font-weight:500;font-size:11.5px;color:var(--ink-3);margin-top:2px}
+.step.off{opacity:.5}
+.step svg{width:24px;height:24px}
+.switch{width:40px;height:23px;border-radius:99px;background:var(--line);border:0;position:relative;flex:none;transition:background .15s}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.switch[aria-checked="true"]{background:var(--good)}
+.switch[aria-checked="true"]::after{transform:translateX(17px)}
+
+/* Aging */
+.aging{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.bucket{border-radius:12px;padding:14px;border:1px solid color-mix(in srgb,var(--k) 30%,var(--line));background:color-mix(in srgb,var(--k) 8%,var(--surface));display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:start}
+.bucket .v{font-family:var(--f-display);font-size:30px;font-weight:800;line-height:1}
+.bucket svg{grid-row:span 3;width:54px;height:54px}
+.bucket .meter{grid-column:1/-1}
+
+/* Cohort */
+.cohort td{text-align:center;font-variant-numeric:tabular-nums;font-weight:600;font-size:13.5px;border:2px solid var(--surface)}
+.cohort td.h{text-align:left;font-weight:500;color:var(--ink-2);background:none}
+
+/* Classes */
+.week{display:grid;grid-template-columns:64px repeat(7,minmax(108px,1fr));gap:6px;min-width:840px}
+.week .dh{font-weight:600;font-size:13px;text-align:center;padding:6px 0;border-radius:8px}
+.week .dh.today{background:var(--ink);color:var(--bg)}
+.week .slot{font-family:var(--f-display);font-weight:700;font-size:16px;color:var(--ink-3);padding-top:8px}
+.cls{--k:var(--blue);border:1px solid color-mix(in srgb,var(--k) 32%,var(--line));border-radius:10px;padding:8px;background:color-mix(in srgb,var(--k) 11%,var(--surface));text-align:left;display:flex;flex-direction:column;gap:5px;font-size:12.5px;min-height:80px;transition:transform .12s,box-shadow .12s}
+.cls .ti{display:flex;align-items:center;gap:6px}
+.cls .ti svg{width:17px;height:17px;fill:var(--k);flex:none}
+.cls b{font-size:13.5px}
+.cls:hover{transform:translateY(-1px)}
+.cls[aria-pressed="true"]{border-color:var(--k);box-shadow:0 0 0 2px var(--k)}
+.cls .meter{height:5px;background:color-mix(in srgb,var(--k) 18%,var(--surface))}
+.full-tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;background:var(--k);color:var(--on-k);border-radius:4px;padding:0 5px;margin-left:auto}
+.empty-slot{border:1px dashed var(--line);border-radius:10px;min-height:80px}
+
+/* POS */
+.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.prod{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px;text-align:left;display:flex;flex-direction:column;gap:3px;transition:transform .12s,border-color .12s,box-shadow .12s}
+.prod:hover{border-color:var(--k);transform:translateY(-2px);box-shadow:var(--shadow)}
+.prod .pimg{height:66px;border-radius:9px;background:color-mix(in srgb,var(--k) 16%,var(--surface));display:grid;place-items:center;margin-bottom:6px;background-image:radial-gradient(color-mix(in srgb,var(--k) 22%,transparent) 1px,transparent 1.3px);background-size:8px 8px}
+.prod .pimg svg{width:36px;height:36px;fill:none;stroke:var(--k);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.prod .p{font-family:var(--f-display);font-weight:800;font-size:21px}
+.cart-line{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:8px}
+.qty button{border:0;background:none;width:28px;height:28px;font-weight:700}
+.qty span{min-width:20px;text-align:center}
+.sum{display:grid;grid-template-columns:1fr auto;gap:4px 12px;font-size:14px;padding-top:10px}
+.sum .t{font-family:var(--f-display);font-weight:800;font-size:28px;padding-top:6px}
+.empty-cart{text-align:center;padding:6px 0 10px}
+.empty-cart svg{width:170px;height:auto;display:block;margin:0 auto 4px}
+
+/* Phone */
+.phone-wrap{display:grid;grid-template-columns:auto minmax(0,1fr);gap:32px;align-items:start}
+.phone{width:304px;max-width:100%;border-radius:40px;background:var(--rail);padding:12px;box-shadow:var(--shadow),inset 0 0 0 2px #2A303C}
+.screen{background:var(--bg);border-radius:30px;height:600px;overflow:hidden;display:flex;flex-direction:column}
+.screen-body{flex:1;overflow-y:auto;padding:16px 14px;display:flex;flex-direction:column;gap:12px}
+.screen-body>*{flex-shrink:0}
+.ptabs{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);background:var(--surface)}
+.ptabs button{border:0;background:none;padding:10px 0 12px;font-size:11.5px;font-weight:600;color:var(--ink-3);display:flex;flex-direction:column;align-items:center;gap:3px}
+.ptabs button svg{width:19px;height:19px;fill:currentColor}
+.ptabs button[aria-pressed="true"]{color:var(--teal)}
+.mcard{background:var(--surface);border-radius:14px;padding:13px;border:1px solid var(--line)}
+.mhero{border-radius:16px;padding:14px;background:linear-gradient(135deg,#C8102E,#4A0612);color:#fff;position:relative;overflow:hidden}
+.mhero h2{color:#fff}
+.mhero svg.deco{position:absolute;right:-14px;top:6px;width:120px;opacity:.9}
+.qr{width:150px;height:150px;margin:6px auto;display:block;background:#fff;border-radius:8px;padding:8px}
+.streak{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:8px}
+.streak svg{width:100%;height:auto}
+.feat-list{display:flex;flex-direction:column;gap:14px}
+.feat-list>div{display:grid;grid-template-columns:38px 1fr;gap:12px}
+.feat-list .n{width:38px;height:38px;border-radius:10px;background:var(--k);color:var(--on-k);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:16px;box-shadow:0 3px 0 color-mix(in srgb,var(--k) 55%,#000)}
+.feat-list .n svg{width:20px;height:20px;fill:currentColor}
+
+/* Compare */
+.cmp td{white-space:normal;vertical-align:top;min-width:150px;font-size:13.5px}
+.cmp td:first-child{font-weight:600;min-width:190px}
+.cmp th.us,.cmp td.us{background:color-mix(in srgb,var(--blue) 10%,var(--surface))}
+.mark{font-weight:700;margin-right:4px}
+.mark.y{color:var(--good)} .mark.p{color:var(--warn)} .mark.n{color:var(--bad)} .mark.u{color:var(--ink-3)}
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.tier{border:1px solid color-mix(in srgb,var(--k) 30%,var(--line));border-radius:16px;padding:18px;background:linear-gradient(180deg,color-mix(in srgb,var(--k) 10%,var(--surface)),var(--surface) 45%);display:flex;flex-direction:column;gap:10px;position:relative}
+.tier.hl{box-shadow:0 0 0 2px var(--k)}
+.tier>svg{width:62px;height:62px}
+.tier .price{font-family:var(--f-display);font-size:38px;font-weight:800;line-height:1}
+.tier ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:14px;color:var(--ink-2)}
+
+/* Drawer / modal / toast */
+.scrim{position:fixed;inset:0;background:rgba(10,12,16,.5);z-index:60;animation:fade .2s ease both}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(540px,100%);background:var(--bg);z-index:70;overflow-y:auto;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:16px;padding-block:calc(18px + env(safe-area-inset-top,0px)) calc(24px + env(safe-area-inset-bottom,0px));padding-left:20px;padding-right:max(20px,env(safe-area-inset-right,0px));animation:slideIn .28s cubic-bezier(.2,.8,.25,1) both}
+@keyframes slideIn{from{transform:translateX(40px);opacity:0}}
+@keyframes fade{from{opacity:0}}
+.drawer-head{display:flex;gap:14px;align-items:center;padding:14px;border-radius:14px;background:color-mix(in srgb,var(--k) 14%,var(--surface))}
+.drawer-head .avatar{width:54px;height:54px;font-size:20px}
+.x{margin-left:auto;border:1px solid var(--line);background:var(--surface);border-radius:8px;width:34px;height:34px;font-size:18px;line-height:1;flex:none}
+.heat{display:grid;grid-template-columns:repeat(12,1fr);gap:3px}
+.heat .wk{display:grid;grid-template-rows:repeat(7,1fr);gap:3px}
+.heat i{aspect-ratio:1;border-radius:3px;background:var(--surface-2);max-width:100%}
+.heat i.on{background:var(--green)}
+.wa{background:var(--good-soft);border-radius:12px 12px 12px 3px;padding:10px 12px;font-size:14px;color:var(--ink);max-width:92%}
+.wa small{display:block;color:var(--ink-3);font-size:11.5px;margin-top:4px;text-align:right}
+.reasons{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px;font-size:14px}
+.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(440px,calc(100% - 32px));background:var(--surface);border-radius:16px;z-index:70;padding:20px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow);animation:pop .22s cubic-bezier(.2,.8,.25,1) both}
+@keyframes pop{from{opacity:0;transform:translate(-50%,-46%) scale(.97)}}
+.field{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.field input,.field select{border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:9px 10px;font-weight:400;font-size:15px;color:var(--ink)}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 16px 11px 14px;border-radius:12px;font-weight:500;z-index:90;box-shadow:var(--shadow);max-width:calc(100% - 32px);font-size:14px;display:flex;align-items:center;gap:10px;animation:toastIn .25s cubic-bezier(.2,.8,.25,1) both}
+.toast svg{width:22px;height:22px;flex:none}
+@keyframes toastIn{from{opacity:0;transform:translate(-50%,10px)}}
+.search{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:8px 12px;min-width:0;flex:1;max-width:320px}
+
+/* Messages */
+.tpls{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+@media (max-width:1180px){.tpls{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:760px){.tpls{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:520px){.tpls{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tpl{--k:var(--red);display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:11px;transition:transform .12s,border-color .12s,background .12s}
+.tpl:hover{transform:translateY(-2px);border-color:var(--k)}
+.tpl[aria-pressed="true"]{border-color:var(--k);background:color-mix(in srgb,var(--k) 10%,var(--surface));box-shadow:0 0 0 1px var(--k)}
+.tpl .ico{width:32px;height:32px;border-radius:9px;background:var(--k);color:var(--on-k);display:grid;place-items:center;margin-bottom:5px}
+.tpl .ico svg{width:18px;height:18px;fill:currentColor}
+.tpl b{font-size:14.5px}
+.tpl small{color:var(--ink-3);font-size:12.5px;line-height:1.3}
+.comp{display:flex;flex-direction:column;gap:12px}
+.comp .lab{display:grid;grid-template-columns:76px minmax(0,1fr);gap:10px;align-items:center}
+.comp .lab input,.comp .lab select{width:100%;max-width:none}
+.field textarea{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:10px 12px;font:inherit;font-weight:400;font-size:15px;line-height:1.5;color:var(--ink);resize:vertical;min-height:118px}
+.chip.ph{font-size:12px;padding:3px 9px;font-family:var(--f-mono)}
+.mphone{width:280px;max-width:100%;margin:0 auto;border-radius:32px;background:var(--rail);padding:10px;box-shadow:var(--shadow)}
+.mscreen{background:var(--surface-2);border-radius:24px;min-height:300px;overflow:hidden;display:flex;flex-direction:column}
+.mtop{background:var(--surface);border-bottom:1px solid var(--line);padding:10px;text-align:center;font-weight:700;font-size:14px}
+.mtop small{display:block;font-weight:500;color:var(--ink-3);font-size:11.5px}
+.mthread{padding:14px 12px;display:flex;flex-direction:column;gap:6px}
+.bub{background:var(--surface);border-radius:14px 14px 14px 4px;padding:9px 11px;font-size:13.5px;line-height:1.45;max-width:94%;white-space:pre-wrap;word-break:break-word;box-shadow:0 1px 1px rgba(0,0,0,.06);animation:bubIn .25s ease both}
+.bub.wa{background:var(--good-soft)}
+.bub small{display:block;text-align:right;color:var(--ink-3);font-size:11px;margin-top:3px}
+@keyframes bubIn{from{opacity:0;transform:translateY(6px)}}
+.recips{display:flex;flex-direction:column;margin-top:6px}
+.recip{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:center;text-align:left;border:0;background:none;padding:7px 6px;border-radius:9px}
+.recip:hover{background:var(--surface-2)}
+.recip[aria-pressed="true"]{background:color-mix(in srgb,var(--sec) 12%,var(--surface))}
+.recip>span:last-child{min-width:0;font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.recip b{display:block;color:var(--ink);font-size:14px}
+.auto-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.auto-row:last-child{border-bottom:0}
+.auto-row small{display:block;color:var(--ink-3);font-size:13px}
+.bday{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line)}
+.bday small{display:block;color:var(--ink-3);font-size:12.5px}
+
+/* Developer credit */
+.credit{display:flex;align-items:center;justify-content:center;gap:8px;max-width:1320px;margin:0 auto;padding-block:16px 24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);letter-spacing:.02em}
+/* SAIL Labs logo, matched to saillabs.in: 3×3 square mark in the studio's own blue and cyan, Hanken Grotesk wordmark with a bar-less A */
+.sl-logo{display:inline-flex;align-items:center;gap:8px;color:var(--ink);text-decoration:none;border-radius:6px}
+.sl-logo:hover .sl-word{opacity:.8}
+.sl-mark{width:20px;height:20px;flex:none;display:block}
+.sl-word{font-family:"Hanken Grotesk",Arial,sans-serif;font-weight:800;font-size:18px;letter-spacing:-.8px;line-height:1;display:inline-flex;align-items:baseline;text-transform:none}
+.sl-word svg{width:.64em;height:.7em;fill:currentColor;margin:0 .03em 0 .01em;align-self:baseline}
+.sl-word span{font-weight:400;font-size:.8em;letter-spacing:-.5px;margin-left:.22em}
+.ld-credit{position:absolute;left:0;right:0;bottom:calc(22px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--rail-ink-2)}
+.ld-credit .sl-logo{color:#fff}
+
+/* Tab transition */
+.loader{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background-color:color-mix(in srgb,var(--rail) 95%,transparent);background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.3px);background-size:8px 8px;backdrop-filter:blur(6px);animation:fade .14s ease both;padding:16px}
+.loader.out{animation:fadeOut .24s ease both}
+@keyframes fadeOut{to{opacity:0}}
+.ld{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.ld-bar{width:min(380px,82vw);height:auto;overflow:visible;animation:lift .36s .4s cubic-bezier(.3,.7,.3,1) both}
+.ld-fig{width:min(300px,74vw);height:auto;overflow:visible;margin-bottom:4px}
+.pl{transform-box:fill-box;animation:slideL .34s cubic-bezier(.2,.8,.25,1) both;animation-delay:var(--d)}
+.pl.r{animation-name:slideR}
+@keyframes slideL{from{transform:translateX(-80px);opacity:0}}
+@keyframes slideR{from{transform:translateX(80px);opacity:0}}
+@keyframes lift{0%{transform:translateY(0)}60%{transform:translateY(-18px)}100%{transform:translateY(-12px)}}
+.ld-title{font-family:var(--f-display);font-weight:800;font-size:46px;color:#fff;letter-spacing:.02em;line-height:1;animation:rise .35s .15s both}
+.ld-title::after{content:"";display:block;height:4px;width:48px;margin:8px auto 0;border-radius:4px;background:var(--sec)}
+.ld-tip{color:var(--sec);font-weight:600;font-size:14px;letter-spacing:.04em;animation:rise .35s .25s both}
+.band-art .pl{animation-delay:calc(var(--d) + .25s)}
+
+@media (max-width:1180px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.g-main{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:900px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .rail{position:fixed;left:0;top:0;bottom:0;width:260px;transform:translateX(-105%);transition:transform .22s ease;padding-top:calc(20px + env(safe-area-inset-top,0px))}
+  body.nav-open .rail{transform:none;box-shadow:var(--shadow)}
+  .menu-btn{display:inline-flex}
+  .g-2,.g-3,.tiers{grid-template-columns:minmax(0,1fr)}
+  .phone-wrap{grid-template-columns:minmax(0,1fr);justify-items:center}
+  .hide-sm{display:none}
+}
+@media (max-width:700px){
+  .band{grid-template-columns:minmax(0,1fr);padding:18px}
+  .band-art svg{width:230px}
+  h1{font-size:36px}
+}
+@media (max-width:620px){
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .aging{grid-template-columns:minmax(0,1fr)}
+  .step{grid-template-columns:20px 58px 1fr auto;gap:9px}
+  .topbar .gsearch{max-width:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="app">
+  <aside class="rail" id="rail" aria-label="Main navigation">
+    <div class="brand" id="brand"></div>
+    <nav id="nav" style="display:flex;flex-direction:column;gap:16px"></nav>
+    <div class="rail-foot" id="railFoot"></div>
+  </aside>
+  <div style="min-width:0">
+    <header class="topbar">
+      <button class="menu-btn" data-act="menu" aria-label="Open navigation"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <label class="gsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="gq" type="search" placeholder="Search members by name or phone" aria-label="Search members"></label>
+      <span class="spacer"></span>
+      <select class="select" id="branch" aria-label="Branch">
+        <option value="ind">Indiranagar</option><option value="hsr">HSR Layout</option><option value="wf">Whitefield</option><option value="all">All branches</option>
+      </select>
+      <button class="btn primary hide-sm" data-act="newMember">+ New member</button>
+    </header>
+    <main class="main" id="view"></main>
+    <footer class="credit" id="credit"></footer>
+  </div>
+</div>
+<div id="layer"></div>
+<div class="loader" id="loader" hidden></div>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+const TODAY = new Date(2026,10,5);
+const DAY = 864e5;
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const inr = n => '₹' + Math.round(n).toLocaleString('en-IN');
+const fmtD = d => d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+const addDays = n => new Date(TODAY.getTime() + n*DAY);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const $ = s => document.querySelector(s);
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const AV_COLORS = ['#C8102E','#3A3638','#6D7580','#A50D26','#4F565F','#C25563','#2A2729','#80222F'];
+const avColor = i => AV_COLORS[i%AV_COLORS.length];
+const avatar = (name,i) => `<span class="avatar" style="background:${avColor(i)}">${esc(name.split(' ').map(w=>w[0]).join('').slice(0,2))}</span>`;
+
+/* ---------- Equipment art kit ---------- */
+// Side-view bumper plates: colour, height factor, thickness
+const PLATE = {25:['var(--red)',1,17],20:['var(--blue)',.92,15],15:['var(--yellow)',.8,13],10:['var(--pink)',.67,11],5:['var(--plate-white)',.48,9]};
+function barbellArt(W, H, kgs, ghost = [], anim = false){
+  const cy = H/2, cL = Math.round(W*.31), cR = W - cL, maxH = H*.9;
+  let s = `<rect x="4" y="${cy-5}" width="${cL-4}" height="10" rx="4" fill="var(--steel)"/><rect x="${cR}" y="${cy-5}" width="${W-cR-4}" height="10" rx="4" fill="var(--steel)"/>`;
+  s += `<rect x="${cL}" y="${cy-3}" width="${cR-cL}" height="6" fill="var(--steel)"/>`;
+  for (let x = cL+18; x < cR-20; x += 5) if (Math.abs(x - W/2) > 12) s += `<path d="M${x} ${cy-3}l3 6" stroke="var(--steel-d)" stroke-width="1"/>`;
+  s += `<rect x="${cL-8}" y="${cy-14}" width="8" height="28" rx="2" fill="var(--steel-d)"/><rect x="${cR}" y="${cy-14}" width="8" height="28" rx="2" fill="var(--steel-d)"/>`;
+  let xl = cL-10, xr = cR+10;
+  kgs.map(k=>[k,false]).concat(ghost.map(k=>[k,true])).forEach(([k,g],i) => {
+    const [c,hf,w] = PLATE[k], h = maxH*hf, y = cy-h/2;
+    xl -= w;
+    const st = g ? 'fill="none" stroke="var(--ink-3)" stroke-width="1.5" stroke-dasharray="3 3"' : `fill="${c}" stroke="rgba(0,0,0,.2)"`;
+    const a = side => anim && !g ? ` class="pl ${side}" style="--d:${i*60}ms"` : '';
+    const hl = g ? '' : `<rect x="X" y="${y+5}" width="2.5" height="${h-10}" rx="1.2" fill="rgba(255,255,255,.35)"/>`;
+    s += `<g${a('l')}><rect x="${xl}" y="${y}" width="${w}" height="${h}" rx="3.5" ${st}/>${hl.replace('X', xl+3)}</g>`;
+    s += `<g${a('r')}><rect x="${xr}" y="${y}" width="${w}" height="${h}" rx="3.5" ${st}/>${hl.replace('X', xr+3)}</g>`;
+    xl -= 2; xr += w + 2;
+  });
+  return s;
+}
+const dumbbell = (x,y,s,c) => `<g transform="translate(${x} ${y}) scale(${s})"><rect x="-26" y="-3.5" width="52" height="7" rx="2" fill="var(--steel)"/><path d="M-14 -3.5v7M-9 -3.5v7M-4 -3.5v7M4 -3.5v7M9 -3.5v7M14 -3.5v7" stroke="var(--steel-d)" stroke-width="1"/><rect x="-41" y="-18" width="15" height="36" rx="4.5" fill="${c}"/><rect x="26" y="-18" width="15" height="36" rx="4.5" fill="${c}"/><rect x="-51" y="-13" width="10" height="26" rx="3.5" fill="${c}"/><rect x="41" y="-13" width="10" height="26" rx="3.5" fill="${c}"/><rect x="-55" y="-4" width="4" height="8" rx="1.5" fill="var(--steel-d)"/><rect x="51" y="-4" width="4" height="8" rx="1.5" fill="var(--steel-d)"/><rect x="-38" y="-14" width="3" height="28" rx="1.5" fill="rgba(255,255,255,.3)"/><rect x="29" y="-14" width="3" height="28" rx="1.5" fill="rgba(255,255,255,.3)"/></g>`;
+const kettlebell = (x,y,s,c,kg) => `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-14 -13V-24a8 8 0 0 1 8-8h12a8 8 0 0 1 8 8V-13" fill="none" stroke="var(--steel-d)" stroke-width="6.5" stroke-linecap="round"/><circle cx="0" cy="6" r="24" fill="${c}"/><rect x="-17" y="23" width="34" height="7" rx="2.5" fill="${c}"/><ellipse cx="-9" cy="-3" rx="5" ry="9" fill="rgba(255,255,255,.25)"/>${kg?`<text x="0" y="14" text-anchor="middle" font-size="16" font-weight="800" fill="#fff" font-family="Barlow Condensed,sans-serif">${kg}</text>`:''}</g>`;
+const plateFace = (cx,cy,r,c,label) => { const ink = c.includes('white') ? '#2A2F3A' : '#fff'; return `<g><circle cx="${cx}" cy="${cy}" r="${r}" fill="${c}" stroke="rgba(0,0,0,.18)"/><circle cx="${cx}" cy="${cy}" r="${r*.76}" fill="none" stroke="${ink}" stroke-opacity=".35" stroke-width="${Math.max(1,r*.045)}"/><circle cx="${cx}" cy="${cy}" r="${r*.3}" fill="var(--steel)"/><circle cx="${cx}" cy="${cy}" r="${r*.14}" fill="var(--rail)"/>${label?`<text x="${cx}" y="${cy-r*.5}" text-anchor="middle" dominant-baseline="middle" font-size="${r*.3}" font-weight="800" fill="${ink}" font-family="Barlow Condensed,sans-serif">${label}</text>`:''}</g>`; };
+const plateSvg = (c,label,size=40) => `<svg viewBox="0 0 40 40" width="${size}" height="${size}" aria-hidden="true">${plateFace(20,20,19,c,label)}</svg>`;
+
+// Small filled icons (24px grid)
+const MI = {
+ plate:'<path fill-rule="evenodd" d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20zm0 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>',
+ db:'<rect x="1" y="9" width="3" height="6" rx="1"/><rect x="4" y="5.5" width="4" height="13" rx="1.5"/><rect x="8" y="10.8" width="8" height="2.4"/><rect x="16" y="5.5" width="4" height="13" rx="1.5"/><rect x="20" y="9" width="3" height="6" rx="1"/>',
+ kb:'<path fill-rule="evenodd" d="M8.5 2h7A3.5 3.5 0 0 1 19 5.5v2.7A8.5 8.5 0 0 1 17.6 22H6.4A8.5 8.5 0 0 1 5 8.2V5.5A3.5 3.5 0 0 1 8.5 2zm0 2.2c-.7 0-1.3.6-1.3 1.3v1.2A8.5 8.5 0 0 1 12 5.3c1.8 0 3.4.5 4.8 1.4V5.5c0-.7-.6-1.3-1.3-1.3z"/>',
+ bb:'<rect x="1" y="10.9" width="22" height="2.2" rx="1"/><rect x="3" y="5" width="3.2" height="14" rx="1.2"/><rect x="6.8" y="7.5" width="2.6" height="9" rx="1"/><rect x="17.8" y="5" width="3.2" height="14" rx="1.2"/><rect x="14.6" y="7.5" width="2.6" height="9" rx="1"/>',
+ watch:'<path fill-rule="evenodd" d="M9.5 1h5v2h-5zM12 4a9 9 0 1 1 0 18 9 9 0 0 1 0-18zm-1 4v6.1l4.6 2.7 1-1.7-3.6-2.1V8z"/>',
+ spin:'<path fill-rule="evenodd" d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20zm0 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm-1 3h2v3h3v2h-3v3h-2v-3H8v-2h3z"/>',
+ yoga:'<path d="M12 3.5c2.2 2.7 2.6 5.8 0 9.5-2.6-3.7-2.2-6.8 0-9.5zM2.5 9.5c3.8 0 7 2.2 8.5 6-3.9.4-7.1-1.8-8.5-6zm19 0c-1.4 4.2-4.6 6.4-8.5 6 1.5-3.8 4.7-6 8.5-6zM4 18h16v2.2H4z"/>',
+ music:'<path d="M9 18.5a3 3 0 1 1-2-2.8V4.5l12-2.5v13.5a3 3 0 1 1-2-2.8V5.9L9 7.5z"/>',
+ wave:'<path d="M2 11.5c2.6-4 5.2-4 7.6 0 2.4 4 4.9 4 7.4 0 1.6-2.6 3.2-3 5-1.6v3c-1.6-1.3-2.6-.5-4.3 2-2.7 4-5.4 4-8.1 0-2.4-3.6-4.8-3.6-7.6.6z"/>',
+ glove:'<path d="M7 22v-3.5L4.6 15A3 3 0 0 1 4 13.2V9a2 2 0 0 1 3.4-1.4V5a2 2 0 0 1 2-2h6.2a3.4 3.4 0 0 1 3.4 3.4v6.4a6 6 0 0 1-2 4.5V22z"/>',
+ heart:'<path d="M12 21s-8.5-5.2-8.5-11.3A4.8 4.8 0 0 1 12 6.6a4.8 4.8 0 0 1 8.5 3.1C20.5 15.8 12 21 12 21z"/>',
+ phone:'<path fill-rule="evenodd" d="M8 1h8a2.5 2.5 0 0 1 2.5 2.5v17A2.5 2.5 0 0 1 16 23H8a2.5 2.5 0 0 1-2.5-2.5v-17A2.5 2.5 0 0 1 8 1zm2 18v1.6h4V19z"/>',
+ home:'<path d="M12 2.5l9.5 8.2V21a1 1 0 0 1-1 1H15v-6.5H9V22H3.5a1 1 0 0 1-1-1V10.7z"/>',
+ cal:'<path fill-rule="evenodd" d="M7 1.5h2V4h6V1.5h2V4h2.5A1.5 1.5 0 0 1 21 5.5v15a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 20.5v-15A1.5 1.5 0 0 1 4.5 4H7zM5 9.5V20h14V9.5z"/>',
+ chart:'<path d="M3 20h18v2H3zM4 12h4v7H4zm6-6h4v13h-4zm6 3h4v10h-4z"/>',
+ rupee:'<path d="M6 3h12v2h-4.2c.6.6 1 1.4 1.2 2.3H18v2h-3c-.4 2.4-2.4 4.1-5.3 4.5l6.5 6.7H13.4L7 13.9V12h2.5c1.8 0 3-.8 3.4-2.7H6v-2h6.6C12.1 5.8 11 5 9.5 5H6z"/>',
+ check:'<path fill-rule="evenodd" d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20zm4.3 6.3L10.5 14l-2.8-2.8-1.4 1.4 4.2 4.2 7.2-7.1z"/>',
+ cake:'<path d="M12 2.5c1.6 1.4 1.6 3 0 4-1.6-1-1.6-2.6 0-4zM11.2 7.5h1.6V10h-1.6zM4 10h16a1 1 0 0 1 1 1v3.2c-1.3 0-2-1-3.2-1s-1.9 1-3.2 1-1.9-1-3.2-1-1.9 1-3.2 1-1.9-1-3.2-1V11a1 1 0 0 1 1-1zM3 16.3c1.3 0 2-1 3.2-1s1.9 1 3.2 1 1.9-1 3.2-1 1.9 1 3.2 1 1.9-1 3.2-1 1.9 1 3 1V21H3z"/>',
+ chat:'<path fill-rule="evenodd" d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H9l-5 4v-4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm3 5v2h10V8zm0 4v2h7v-2z"/>',
+ lock:'<path fill-rule="evenodd" d="M12 2a5 5 0 0 1 5 5v3h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h1V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v3h6V7a3 3 0 0 0-3-3z"/>'
+};
+const mi = (k, attrs='') => `<svg viewBox="0 0 24 24" aria-hidden="true" ${attrs}>${MI[k]}</svg>`;
+
+// Band artwork, one per section (viewBox 300x130)
+const ART = {
+ members: () => `<rect x="62" y="12" width="6" height="112" rx="2" fill="var(--steel-d)"/><rect x="232" y="12" width="6" height="112" rx="2" fill="var(--steel-d)"/>
+   <path d="M56 40h188M56 78h188M56 116h188" stroke="var(--steel)" stroke-width="4" stroke-linecap="round"/>
+   ${dumbbell(110,28,.55,'var(--teal)')}${dumbbell(195,28,.55,'var(--teal)')}${dumbbell(110,64,.68,'var(--green)')}${dumbbell(195,64,.68,'var(--green)')}${dumbbell(150,100,.85,'var(--blue)')}`,
+ collections: () => { let s = ''; const st = [['var(--red)',150],['var(--blue)',138],['var(--yellow)',124],['var(--green)',108],['var(--plate-white)',90]]; st.forEach(([c,w],i)=>{ const y = 112 - i*15; s += `<rect x="${110-w/2}" y="${y}" width="${w}" height="13" rx="6" fill="${c}" stroke="rgba(0,0,0,.18)"/><rect x="${110-w/2+8}" y="${y+3}" width="${w-16}" height="2" rx="1" fill="rgba(255,255,255,.35)"/>`; }); return s + plateFace(235,68,52,'var(--yellow)','₹'); },
+ classes: () => `<path d="M10 120h280" stroke="var(--line)" stroke-width="3" stroke-linecap="round"/>${kettlebell(70,82,1.05,'var(--purple)',24)}${kettlebell(160,88.6,.83,'var(--red)',16)}${kettlebell(236,94,.65,'var(--teal)',8)}`,
+ pos: () => `<rect x="38" y="40" width="88" height="78" rx="12" fill="var(--orange)"/><rect x="32" y="26" width="100" height="20" rx="6" fill="var(--slate)"/><rect x="38" y="62" width="88" height="30" fill="#fff" opacity=".92"/><text x="82" y="83" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-weight="800" font-size="20" fill="#B44B10">WHEY</text><rect x="46" y="98" width="72" height="4" rx="2" fill="rgba(255,255,255,.4)"/>
+   <path d="M152 44h46l-7 74h-32z" fill="var(--teal)" opacity=".35"/><path d="M152 44h46l-7 74h-32z" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linejoin="round"/><path d="M156 80h38" stroke="var(--teal)" stroke-width="1.5" stroke-dasharray="4 3"/><rect x="149" y="30" width="52" height="16" rx="5" fill="var(--teal)"/><rect x="166" y="18" width="18" height="14" rx="4" fill="var(--slate)"/>
+   <g transform="rotate(-14 252 98)"><rect x="214" y="86" width="78" height="24" rx="6" fill="var(--purple)"/><rect x="236" y="86" width="34" height="24" fill="#fff" opacity=".88"/><text x="253" y="102" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-weight="800" font-size="12" fill="#5B33B0">20g</text></g>`,
+ leads: () => { let s = '', cols = ['var(--pink)','var(--purple)','var(--blue)','var(--teal)']; cols.forEach((c,i)=>{ for(let j=0;j<=i;j++){ const y = 110 - j*15, x = 34 + i*62; s += `<rect x="${x}" y="${y}" width="48" height="13" rx="6" fill="${c}" stroke="rgba(0,0,0,.15)"/>`; } }); return s + `<path d="M22 84 L262 22" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round"/><path d="M246 16l18 5-12 14" fill="none" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`; },
+ retention: () => `<path d="M0 66H112l9-30 12 62 9-38 8 6H300" fill="none" stroke="var(--red)" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" opacity=".5"/>${dumbbell(150,66,1.25,'var(--red)')}<path d="M112 66l9-30 12 62 9-38 8 6" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`,
+ app: () => { const r = rng(7); let q=''; for(let y=0;y<7;y++) for(let x=0;x<7;x++) if((x<2&&y<2)||(x>4&&y<2)||(x<2&&y>4)||r()>.5) q+=`<rect x="${122+x*8}" y="${42+y*8}" width="7" height="7" rx="1" fill="var(--ink)"/>`; return `${dumbbell(52,98,.6,'var(--teal)')}<rect x="104" y="8" width="92" height="118" rx="16" fill="var(--slate)"/><rect x="110" y="18" width="80" height="98" rx="9" fill="var(--surface)"/>${q}<rect x="122" y="102" width="56" height="7" rx="3.5" fill="var(--teal)"/>${plateFace(248,82,34,'var(--teal)','20')}`; },
+ messages: () => `<g transform="rotate(-8 50 58)"><rect x="14" y="30" width="72" height="44" rx="11" fill="var(--orange)"/><path d="M30 74l-8 13 19-13z" fill="var(--orange)"/><text x="50" y="58" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-weight="800" font-size="20" fill="#fff">SMS</text></g>
+   <rect x="104" y="6" width="92" height="120" rx="16" fill="var(--slate)"/><rect x="110" y="16" width="80" height="98" rx="9" fill="var(--surface)"/>
+   <rect x="116" y="26" width="52" height="15" rx="7.5" fill="var(--surface-2)"/><rect x="132" y="47" width="52" height="15" rx="7.5" fill="var(--red)"/><rect x="116" y="68" width="60" height="15" rx="7.5" fill="var(--surface-2)"/><rect x="140" y="89" width="44" height="15" rx="7.5" fill="var(--orange)"/>
+   <rect x="216" y="80" width="66" height="36" rx="7" fill="var(--pink)"/><rect x="216" y="80" width="66" height="11" rx="5.5" fill="var(--plate-white)"/><path d="M216 98h66" stroke="var(--plate-white)" stroke-width="3" stroke-dasharray="6 4"/><rect x="230" y="62" width="6" height="18" rx="2" fill="var(--steel)"/><rect x="246" y="58" width="6" height="22" rx="2" fill="var(--steel)"/><rect x="262" y="62" width="6" height="18" rx="2" fill="var(--steel)"/><path d="M233 52c3.5 3.5 3.5 7 0 9-3.5-2-3.5-5.5 0-9zM249 48c3.5 3.5 3.5 7 0 9-3.5-2-3.5-5.5 0-9zM265 52c3.5 3.5 3.5 7 0 9-3.5-2-3.5-5.5 0-9z" fill="var(--orange)"/>`,
+ compare: () => `${plateFace(58,82,30,'var(--green)','10 KG')}${plateFace(140,72,40,'var(--blue)','20 KG')}${plateFace(240,62,50,'var(--red)','25 KG')}`
+};
+const art = (k, extra='') => `<svg viewBox="0 0 300 130" aria-hidden="true">${ART[k]()}</svg>${extra}`;
+const band = (sec, eyebrow, title, text, artHtml, meta='') => `<section class="band"><div><span class="tag"><i></i>${eyebrow}</span><h1>${title}</h1><p>${text}</p>${meta?`<div class="meta">${meta}</div>`:''}</div><div class="band-art">${artHtml}</div></section>`;
+
+/* ---------- Data ---------- */
+const PRICES = {'Monthly':2000,'Quarterly':5400,'Half-yearly':9600,'Annual':16800,'PT 12 + Quarterly':14400,'PT 12 pack':9000};
+// name, phone, plan, ends in (days), dues, last visit (days ago), visits last 30d, visits prior 30d, trainer, autopay, frozen
+const RAW = [
+ ['Aarav Mehta','98450 12873','Annual',142,0,0,18,17,'Rohit',true],
+ ['Priya Nair','99860 44120','Quarterly',6,0,9,3,14,'',false],
+ ['Kabir Singh','97410 33092','Monthly',-4,2000,12,2,11,'',false],
+ ['Ananya Rao','98801 77213','Half-yearly',51,0,1,15,16,'Sneha',true],
+ ['Rohan Gupta','90080 61234','Monthly',2,2000,3,9,12,'',false],
+ ['Sneha Kulkarni','96320 11845','PT 12 + Quarterly',33,4500,2,12,13,'Imran',false],
+ ['Vikram Reddy','99000 23456','Annual',210,0,0,22,20,'Rohit',true],
+ ['Ishita Sharma','98455 90012','Quarterly',11,0,16,1,9,'',false],
+ ['Arjun Iyer','97390 54321','Monthly',-18,2000,21,0,6,'',false],
+ ['Meera Pillai','91080 66778','Half-yearly',88,0,1,14,12,'',true],
+ ['Siddharth Jain','98860 12121','Quarterly',4,5400,5,7,13,'',false],
+ ['Neha Verma','99001 87654','Annual',300,0,0,19,18,'',true],
+ ['Aditya Kumar','97400 11223','Monthly',19,0,2,11,10,'',true],
+ ['Pooja Desai','98451 33445','Quarterly',40,0,26,0,8,'',false,true],
+ ['Karthik Menon','90360 77889','Monthly',-38,4000,41,0,2,'',false],
+ ['Divya Shetty','98440 55667','PT 12 pack',23,3000,3,8,9,'Sneha',false],
+ ['Rahul Bansal','99020 99887','Quarterly',62,0,1,16,15,'',true],
+ ['Tanvi Joshi','97411 22110','Monthly',7,0,8,4,12,'',false],
+ ['Manish Agarwal','98861 44556','Monthly',-72,6000,80,0,0,'',false],
+ ['Sana Khan','99860 30303','Half-yearly',120,0,0,20,19,'Imran',true],
+ ['Varun Malhotra','90088 40404','Annual',15,0,4,10,17,'',false],
+ ['Lakshmi Narayan','98450 50505','Quarterly',29,0,1,13,12,'',false],
+ ['Harsh Patel','97399 60606','Monthly',1,2000,6,5,11,'',false],
+ ['Riya Chatterjee','96111 70707','Quarterly',-9,5400,14,2,10,'',false]
+];
+const MEMBERS = RAW.map((r,i) => {
+  const [name,phone,plan,endIn,dues,last,v30,p30,trainer,autopay,frozen] = r;
+  const m = {i,id:'ICF-'+(1041+i),name,phone,plan,endIn,dues,last,v30,p30,trainer,autopay,frozen:!!frozen,price:PRICES[plan]};
+  m.status = m.frozen ? 'frozen' : endIn < 0 ? 'expired' : endIn <= 7 ? 'expiring' : 'active';
+  let s = 0; const why = [];
+  const drop = p30 ? (p30 - v30) / p30 : 0;
+  const dropTxt = drop >= .95 ? 'Stopped coming this month' : `Coming ${Math.round(drop*100)}% less than last month`;
+  if (drop >= .5) { s += 40; why.push(dropTxt); }
+  else if (drop >= .25) { s += 20; why.push(dropTxt); }
+  if (last >= 14) { s += 35; why.push(`Hasn't come in ${last} days`); }
+  else if (last >= 7) { s += 20; why.push(`Hasn't come in ${last} days`); }
+  if (endIn >= 0 && endIn <= 10) { s += 15; why.push(`Plan ends in ${endIn} day${endIn===1?'':'s'}${autopay?'':', no auto-pay'}`); }
+  if (dues > 0) { s += 10; why.push(`Owes ${inr(dues)}`); }
+  if (m.frozen) { s = Math.min(s, 25); why.unshift('Membership frozen till 20 Nov (travel)'); }
+  m.risk = Math.min(97, s); m.why = why;
+  m.riskLevel = m.risk >= 60 ? 'high' : m.risk >= 30 ? 'medium' : 'low';
+  return m;
+});
+const overdue = m => m.endIn < 0 ? -m.endIn : 0;
+
+const LEADS0 = [
+ ['Nikhil Rao','Instagram','enquiry','Fat loss · 3 months',0,'Asked about couple plan'],
+ ['Aisha Begum','Walk-in','enquiry','Ladies batch timings',0,'Visited at 6 pm'],
+ ['Gaurav Sethi','Google','enquiry','Annual + PT',1,'Price shopping, compared 2 gyms'],
+ ['Fatima Shaikh','Referral','trial','Zumba',0,'Trial today 6:00 pm · ref. Sana Khan'],
+ ['Deepak Yadav','Instagram','trial','Strength',0,'Trial today 7:30 pm'],
+ ['Shreya Bose','Walk-in','trial','Yoga',1,'Trial tomorrow 7:00 am'],
+ ['Amit Thakur','JustDial','trialdone','Monthly',0,'Liked equipment, worried about crowd at 7 pm'],
+ ['Kavya Hegde','Referral','trialdone','Half-yearly',-1,'Follow-up overdue by 1 day'],
+ ['Rajat Khanna','Google','negotiation','Annual',0,'Wants ₹1,500 off · offer EMI instead'],
+ ['Sunita Rao','Instagram','negotiation','PT 12 pack',2,'Waiting for salary on 7th'],
+ ['Imtiaz Ali','Walk-in','joined','Quarterly',null,'Joined 3 Nov'],
+ ['Pallavi Jha','Referral','joined','Annual',null,'Joined 1 Nov · referral reward sent']
+];
+const STAGES = [['enquiry','Enquiry','blue'],['trial','Trial booked','purple'],['trialdone','Trial done','orange'],['negotiation','Negotiation','pink'],['joined','Joined','green']];
+const SRC_COL = {Instagram:'pink',Google:'blue','Walk-in':'orange',Referral:'green',JustDial:'yellow'};
+
+const PI = {
+ tub:'<rect x="5" y="8" width="14" height="13" rx="2.5"/><rect x="4" y="4" width="16" height="4" rx="1.5"/><path d="M5 12.5h14M5 16.5h14"/>',
+ jar:'<rect x="7" y="9" width="10" height="12" rx="2"/><rect x="6.5" y="6" width="11" height="3" rx="1"/><path d="M7 13h10"/>',
+ bar:'<rect x="2.5" y="8.5" width="19" height="7" rx="2"/><path d="M8 8.5v7M16 8.5v7"/>',
+ shaker:'<path d="M7 7h10l-1.6 14H8.6z"/><path d="M6.5 7h11M9 3.5h6V7H9z"/>',
+ glove:'<path d="M7.5 21v-3l-2.3-3.4A3 3 0 0 1 4.7 13V9.3a1.6 1.6 0 0 1 3.2 0V5a1.7 1.7 0 0 1 1.7-1.7h5.6a3 3 0 0 1 3 3v6.4a5.4 5.4 0 0 1-1.8 4V21z"/><path d="M8 12.5h6"/>',
+ ticket:'<path d="M3 7h18v3a2 2 0 0 0 0 4v3H3v-3a2 2 0 0 0 0-4z"/><path d="M14 7v10" stroke-dasharray="2 2"/>',
+ lock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/>',
+ drop:'<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>'
+};
+const CAT_COL = {Supplements:'orange',Snacks:'yellow',Accessories:'purple',Services:'teal'};
+const PRODUCTS = [
+ {n:'Whey protein 1 kg',c:'Supplements',p:3299,s:14,i:'tub'},{n:'Creatine 250 g',c:'Supplements',p:899,s:3,low:true,i:'jar'},
+ {n:'BCAA 300 g',c:'Supplements',p:1499,s:9,i:'jar'},{n:'Protein bar',c:'Snacks',p:120,s:46,i:'bar'},
+ {n:'Shaker bottle',c:'Accessories',p:349,s:21,i:'shaker'},{n:'Lifting gloves',c:'Accessories',p:499,s:2,low:true,i:'glove'},
+ {n:'Day pass',c:'Services',p:300,s:null,i:'ticket'},{n:'Locker · 1 month',c:'Services',p:500,s:12,i:'lock'},
+ {n:'Water 1 L',c:'Snacks',p:20,s:120,i:'drop'}
+];
+
+const CLS_TYPE = {HIIT:['red','kb'],Strength:['blue','bb'],Spin:['orange','spin'],Yoga:['teal','yoga'],Zumba:['pink','music'],Mobility:['green','wave'],Boxing:['purple','glove'],Bootcamp:['yellow','db']};
+const CLASSES = {
+ slots:['06:30','07:30','18:00','19:30'],
+ days:['Mon 2','Tue 3','Wed 4','Thu 5','Fri 6','Sat 7','Sun 8'],
+ grid:[
+  [['HIIT','Rohit',20,20,4],['Yoga','Meenal',24,17,0],['Zumba','Tara',30,26,0],['Strength','Imran',16,16,2]],
+  [['Spin','Rohit',18,12,0],null,['Yoga','Meenal',24,20,0],['HIIT','Sneha',20,19,0]],
+  [['HIIT','Rohit',20,18,0],['Yoga','Meenal',24,15,0],['Zumba','Tara',30,30,6],['Strength','Imran',16,14,0]],
+  [['Spin','Rohit',18,18,3],['Mobility','Sneha',15,9,0],['Zumba','Tara',30,27,0],['Strength','Imran',16,16,5]],
+  [['HIIT','Rohit',20,11,0],['Yoga','Meenal',24,8,0],['Boxing','Imran',14,6,0],['HIIT','Sneha',20,7,0]],
+  [['Bootcamp','Rohit',30,14,0],['Yoga','Meenal',24,10,0],null,null],
+  [null,['Yoga','Meenal',24,6,0],null,null]
+ ]
+};
+
+const BRANCH = {ind:{n:'Indiranagar',f:1},hsr:{n:'HSR Layout',f:.78},wf:{n:'Whitefield',f:.64},all:{n:'All branches',f:2.42}};
+
+const state = {
+  view:'dashboard', branch:'ind', filter:'all', q:'', leads:LEADS0.map((l,i)=>({id:i,name:l[0],src:l[1],stage:l[2],want:l[3],due:l[4],note:l[5]})),
+  cart:[], pay:'UPI', inv:1284, phoneTab:'home', cls:[3,3],
+  dunning:[true,true,true,true,false,true], sent:new Set(), winback:new Set()
+};
+
+/* ---------- Navigation ---------- */
+const ICONS = {
+ dashboard:'<circle cx="12" cy="13.5" r="8"/><path d="M12 9.5v4l2.6 2M9.5 2.5h5M19 6l1.5-1.5"/>',
+ members:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2.2.7 3.5 2.9 3.5 6"/>',
+ collections:'<path d="M7 4h11M7 9h11M10 4c4 0 5 2.5 5 5s-1 5-5 5H7l7 7"/>',
+ leads:'<path d="M3 4h18l-7 8v6l-4 2v-8z"/>',
+ retention:'<path d="M20.8 5.6a5 5 0 0 0-7.6-.6L12 6.2l-1.2-1.2a5 5 0 0 0-7.1 7.1L12 20.4l8.3-8.3a5 5 0 0 0 .5-6.5z"/>',
+ classes:'<path d="M6.5 6v12M17.5 6v12M3.5 9v6M20.5 9v6M6.5 12h11"/>',
+ pos:'<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 12.4a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L22 7H6"/>',
+ app:'<rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/>',
+ messages:'<path d="M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-5 4V5a1 1 0 0 1 1-1z"/><path d="M8 9h8M8 12.5h5"/>',
+ compare:'<path d="M2 12h20M5 7v10M8 8.5v7M19 7v10M16 8.5v7"/>'
+};
+const SEC = {dashboard:'red',members:'purple',collections:'green',classes:'yellow',pos:'orange',leads:'pink',messages:'orange',retention:'red',app:'teal',compare:'blue'};
+const NAV = [
+ ['Run the gym',[['dashboard','Today'],['members','Members'],['collections','Dues & payments'],['classes','Classes & PT'],['pos','Billing & shop']]],
+ ['Grow',[['leads','Enquiries'],['messages','Messages'],['retention','At-risk members']]],
+ ['Product',[['app','Member app'],['compare','Why Repwise']]]
+];
+const TITLES = {dashboard:'Today',members:'Members',collections:'Dues & payments',classes:'Classes & PT',pos:'Billing & shop',leads:'Enquiries',messages:'Messages',retention:'At-risk members',app:'Member app',compare:'Why Repwise'};
+const TIPS = {dashboard:'Chalking up',members:'Calling the roll',collections:'Counting the cash',classes:'Setting up the studio',pos:'Stocking the shelves',leads:'Warming up new faces',messages:'Writing to your members',retention:'Checking the pulse',app:'Syncing phones',compare:'Weighing the competition'};
+
+$('#brand').innerHTML = `<svg width="38" height="38" viewBox="0 0 40 40" aria-hidden="true">${plateFace(20,20,19,'var(--red)','')}</svg><div><b>Repwise</b><small>Ironclad Fitness</small></div>`;
+$('#railFoot').innerHTML = `<svg viewBox="0 0 200 48" aria-hidden="true">${dumbbell(100,24,.95,'var(--yellow)')}</svg><span><b>Prototype.</b> Sample data for a fictional 3-branch gym in Bengaluru. Every screen is clickable.</span>`;
+const SAIL_LOGO = `<a class="sl-logo" href="https://www.saillabs.in" target="_blank" rel="noopener" aria-label="SAIL Labs"><svg class="sl-mark" viewBox="0 0 27 27" aria-hidden="true"><rect x="0" y="0" width="7" height="7" fill="#1E6BFF"/><rect x="0" y="10" width="7" height="7" fill="#1E6BFF"/><rect x="10" y="10" width="7" height="7" fill="#1E6BFF"/><rect x="0" y="20" width="7" height="7" fill="#22D3EE"/><rect x="10" y="20" width="7" height="7" fill="#1E6BFF"/><rect x="20" y="20" width="7" height="7" fill="#1E6BFF"/></svg><span class="sl-word" aria-hidden="true">S<svg viewBox="0 0 40 44"><path d="M0 44L20 0L40 44H33L20 14L7 44Z"/></svg>IL<span>Labs</span></span></a>`;
+$('#credit').innerHTML = `<span>Powered by</span>${SAIL_LOGO}`;
+
+function renderNav(){
+  const highRisk = MEMBERS.filter(m=>m.riskLevel==='high').length;
+  const dues = MEMBERS.filter(m=>m.dues>0).length;
+  $('#nav').innerHTML = NAV.map(([g,items]) => `<div class="navgroup"><div class="eyebrow">${g}</div>${items.map(([k,l]) =>
+    `<button class="nav" data-nav="${k}" style="--k:var(--${SEC[k]})" ${state.view===k?'aria-current="page"':''}><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[k]}</svg>${l}${k==='collections'?`<span class="count">${dues}</span>`:''}${k==='retention'?`<span class="count">${highRisk}</span>`:''}</button>`).join('')}</div>`).join('');
+}
+function go(view, animate){
+  state.view = view; document.body.classList.remove('nav-open'); closeLayer();
+  document.documentElement.style.setProperty('--sec', `var(--${SEC[view]})`);
+  renderNav();
+  const v = $('#view');
+  v.innerHTML = VIEWS[view](); after[view] && after[view]();
+  if (animate && !REDUCED){ v.classList.remove('enter'); void v.offsetWidth; v.classList.add('enter'); clearTimeout(go.t); go.t = setTimeout(()=>v.classList.remove('enter'), 900); }
+  if (animate) window.scrollTo(0,0);
+}
+/* ---------- Transition figures: front-view deadlift and side-view push-ups ----------
+   Each figure is redrawn every frame from joint positions, so hands stay on the bar and planted hands stay put. */
+const LoaderFigs = (() => {
+  const D=Math.PI/180, NS='http://www.w3.org/2000/svg';
+  const FG='#E9E4E5', BK='#8F898B', SHO='#C8102E', SHOE='#B9BEC6', ST='#8E949C', SD='#5E636B', RD='#FF4D5E', BG='#0B0A0B';
+  const lerp=(a,b,s)=>a+(b-a)*s, mix=(A,B,f)=>[lerp(A[0],B[0],f),lerp(A[1],B[1],f)];
+  const ease=x=>.5-.5*Math.cos(Math.PI*Math.min(1,Math.max(0,x)));
+  const cyc=(t,a,b,c)=>t<a?ease(t/a):t<b?1:t<c?1-ease((t-b)/(c-b)):0;
+  const cap=(A,B,ra,rb)=>{const dx=B[0]-A[0],dy=B[1]-A[1],L=Math.hypot(dx,dy)||1,nx=-dy/L,ny=dx/L;return `M${A[0]+nx*ra},${A[1]+ny*ra}L${B[0]+nx*rb},${B[1]+ny*rb}A${rb},${rb} 0 0 0 ${B[0]-nx*rb},${B[1]-ny*rb}L${A[0]-nx*ra},${A[1]-ny*ra}A${ra},${ra} 0 0 0 ${A[0]+nx*ra},${A[1]+ny*ra}Z`;};
+  const circ=(c,r)=>`M${c[0]-r},${c[1]}a${r},${r} 0 1 0 ${2*r},0a${r},${r} 0 1 0 ${-2*r},0Z`;
+  function ik(S,H,l1,l2,pick){let dx=H[0]-S[0],dy=H[1]-S[1],d=Math.hypot(dx,dy);const m=l1+l2-.05;if(d>m){dx*=m/d;dy*=m/d;d=m;}const a=(l1*l1-l2*l2+d*d)/(2*d),h=Math.sqrt(Math.max(0,l1*l1-a*a)),ux=dx/d,uy=dy/d,Mx=S[0]+ux*a,My=S[1]+uy*a;return pick([Mx-uy*h,My+ux*h],[Mx+uy*h,My-ux*h]);}
+  function rig(g,parts){const els={};parts.forEach(([k,at])=>{const p=document.createElementNS(NS,'path');for(const n in at)p.setAttribute(n,at[n]);g.appendChild(p);els[k]=p;});return (k,d)=>els[k].setAttribute('d',d);}
+  function smooth(pts){const n=pts.length;let d=`M${pts[0][0].toFixed(2)},${pts[0][1].toFixed(2)}`;for(let i=0;i<n;i++){const p0=pts[(i-1+n)%n],p1=pts[i],p2=pts[(i+1)%n],p3=pts[(i+2)%n];const c1=[p1[0]+(p2[0]-p0[0])/6,p1[1]+(p2[1]-p0[1])/6],c2=[p2[0]-(p3[0]-p1[0])/6,p2[1]-(p3[1]-p1[1])/6];d+=`C${c1[0].toFixed(2)},${c1[1].toFixed(2)} ${c2[0].toFixed(2)},${c2[1].toFixed(2)} ${p2[0].toFixed(2)},${p2[1].toFixed(2)}`;}return d+'Z';}
+  // limb outline along A→B; rows are [position along limb 0–1, width on one side, width on the other]
+  function limb(A,B,prof,k=1){const dx=B[0]-A[0],dy=B[1]-A[1],L=Math.hypot(dx,dy)||1,ux=dx/L,uy=dy/L,nx=-uy,ny=ux,at=(u,v)=>[A[0]+ux*u*L+nx*v,A[1]+uy*u*L+ny*v];const pts=[],f=prof[0],l=prof[prof.length-1];prof.forEach(r=>pts.push(at(r[0],r[1]*k)));pts.push(at(l[0]+Math.min(l[1],l[2])*k*.85/L,0));for(let i=prof.length-1;i>=0;i--)pts.push(at(prof[i][0],-prof[i][2]*k));pts.push(at(f[0]-Math.min(f[1],f[2])*k*.85/L,0));return smooth(pts);}
+  const PR={thigh:[[0,5.2,5.6],[.3,4.9,5.9],[.65,4.1,4.7],[1,3.4,3.5]],shin:[[0,3.4,3.3],[.25,4.5,3.1],[.55,3.4,2.6],[1,2.1,2.1]],upper:[[0,4.1,4.2],[.45,3.6,3.9],[1,2.8,2.9]],fore:[[0,3,3.1],[.3,3.1,3.3],[1,2,2.1]],torso:[[-.05,5.6,6.4],[.14,5.1,6.7],[.38,4.4,5.1],[.62,5.7,4.9],[.82,6.6,5.3],[1,5.4,5.1]],shortsT:[[-.05,5.5,6.3],[.16,5,6.5]],shortsL:[[-.08,5.3,5.6],[.1,5,5.7],[.38,4.7,5.7]]};
+  const W={th:[4.8,3.5],sh:[3.5,2.3],up:[3.7,2.8],fo:[2.9,2.1],head:6.4,ft:[2.4,1.9]};
+  const floor='<line x1="20" y1="122" x2="180" y2="122" stroke="#2C292B" stroke-width="3" stroke-linecap="round"/>';
+  const svg=`<svg class="ld-fig" viewBox="0 0 200 130" aria-hidden="true">${floor}<g class="fig"></g></svg>`;
+
+  const DLP={
+   top:{ankL:[91,118],ankR:[109,118],kneeL:[92,95],kneeR:[108,95],hipL:[93,72],hipR:[107,72],shL:[87,44],shR:[113,44],head:[100,31],handL:[84,75],handR:[116,75]},
+   bot:{ankL:[91,118],ankR:[109,118],kneeL:[88,98],kneeR:[112,98],hipL:[92,92],hipR:[108,92],shL:[87,77],shR:[113,77],head:[100,64],handL:[81,107],handR:[119,107]}
+  };
+  function deadlift(g){
+    const set=rig(g,[['thL',{fill:FG}],['thR',{fill:FG}],['shL',{fill:FG}],['shR',{fill:FG}],['ftL',{fill:SHOE}],['ftR',{fill:SHOE}],['shoL',{fill:SHO}],['shoR',{fill:SHO}],['pelvis',{fill:SHO}],['torso',{fill:FG,stroke:FG,'stroke-width':5,'stroke-linejoin':'round'}],['deltL',{fill:FG}],['deltR',{fill:FG}],['neck',{fill:FG}],['head',{fill:FG}],['upL',{fill:FG}],['upR',{fill:FG}],['foL',{fill:FG}],['foR',{fill:FG}],['barHalo',{fill:'none',stroke:BG,'stroke-width':7,'stroke-linecap':'round'}],['bar',{fill:'none',stroke:ST,'stroke-width':3.4,'stroke-linecap':'round'}],['sleeve',{fill:ST}],['collar',{fill:SD}],['p1',{fill:RD}],['p2',{fill:'#C2C7CE'}],['fistL',{fill:FG}],['fistR',{fill:FG}]]);
+    return t=>{
+      const s=cyc(t,.36,.5,.86), J={}; for(const k in DLP.top) J[k]=mix(DLP.bot[k],DLP.top[k],s);
+      const y=J.handL[1];
+      set('thL',cap(J.hipL,J.kneeL,...W.th));set('thR',cap(J.hipR,J.kneeR,...W.th));
+      set('shL',cap(J.kneeL,J.ankL,...W.sh));set('shR',cap(J.kneeR,J.ankR,...W.sh));
+      set('ftL',cap(J.ankL,[J.ankL[0]-4,121],...W.ft));set('ftR',cap(J.ankR,[J.ankR[0]+4,121],...W.ft));
+      set('shoL',cap(J.hipL,mix(J.hipL,J.kneeL,.4),6,5));set('shoR',cap(J.hipR,mix(J.hipR,J.kneeR,.4),6,5));set('pelvis',cap([J.hipL[0]+1,J.hipL[1]-1],[J.hipR[0]-1,J.hipR[1]-1],6,6));
+      const wl=[J.hipL[0]-1,J.hipL[1]-4], wr=[J.hipR[0]+1,J.hipR[1]-4];
+      set('torso',`M${J.shL[0]},${J.shL[1]-1}L${J.shR[0]},${J.shR[1]-1}L${wr[0]},${wr[1]}L${wl[0]},${wl[1]}Z`);
+      set('deltL',circ([J.shL[0],J.shL[1]+1],3.6));set('deltR',circ([J.shR[0],J.shR[1]+1],3.6));
+      const nb=[100,(J.shL[1]+J.shR[1])/2-1];set('neck',cap(nb,J.head,3.2,2.8));set('head',circ(J.head,W.head));
+      const eL=mix(J.shL,J.handL,.52), eR=mix(J.shR,J.handR,.52);
+      set('upL',cap(J.shL,eL,...W.up));set('upR',cap(J.shR,eR,...W.up));set('foL',cap(eL,J.handL,...W.fo));set('foR',cap(eR,J.handR,...W.fo));
+      set('barHalo',`M66,${y}H134`);set('bar',`M48,${y}H152`);
+      set('sleeve',`M44,${y-2.2}h14v4.4h-14zM142,${y-2.2}h14v4.4h-14z`);
+      set('collar',`M67,${y-6}h2.6v12h-2.6zM130.4,${y-6}h2.6v12h-2.6z`);
+      set('p1',`M59,${y-15}h7.5v30h-7.5zM133.5,${y-15}h7.5v30h-7.5z`);
+      set('p2',`M53,${y-11.5}h5v23h-5zM142,${y-11.5}h5v23h-5z`);
+      set('fistL',circ([J.handL[0],y],3.1));set('fistR',circ([J.handR[0],y],3.1));
+    };
+  }
+  function pushups(g){
+    const set=rig(g,[['shB',{fill:BK}],['thB',{fill:BK}],['torso',{fill:FG}],['sh',{fill:FG}],['th',{fill:FG}],['ft',{fill:SHOE}],['shoT',{fill:SHO}],['shoL',{fill:SHO}],['neck',{fill:FG}],['head',{fill:FG}],['up',{fill:FG}],['fo',{fill:FG}],['hd',{fill:FG}]]);
+    return t=>{
+      const s=cyc(t,.42,.5,.86), th=lerp(20,8.5,s)*D, F=[44,117.5], dv=[Math.cos(th),-Math.sin(th)], at=d=>[F[0]+dv[0]*d,F[1]+dv[1]*d];
+      const knee=at(25),hip=at(50),sh=at(80),H=[118,119.5],E=ik(sh,H,16,15,(a,b)=>a[0]<b[0]?a:b), toe=[F[0]+1,121];
+      set('shB',limb([knee[0]-1,knee[1]+1],[F[0]-1,F[1]],PR.shin,.85));set('thB',limb(hip,[knee[0]-1,knee[1]+1],PR.thigh,.85));
+      set('torso',limb(hip,sh,PR.torso,1));
+      set('th',limb(hip,knee,PR.thigh,1));set('sh',limb(knee,F,PR.shin,1));set('ft',limb(F,toe,[[0,2.8,2.6],[1,2,1.8]],1));
+      set('shoT',limb(hip,sh,PR.shortsT,1));set('shoL',limb(hip,knee,PR.shortsL,1));
+      const hc=[sh[0]+dv[0]*10.5,sh[1]+dv[1]*10.5-3.5];set('neck',cap(sh,hc,3.6,3.1));set('head',circ(hc,5.8));
+      set('up',limb(sh,E,PR.upper,1));set('fo',limb(E,H,PR.fore,1));set('hd',limb(H,[H[0]+5,H[1]],[[0,2.3,2.3],[1,1.8,1.6]],1));
+    };
+  }
+  // period: seconds per rep, sized so one full rep plays while the loader is up
+  return {deadlift:{svg,make:deadlift,period:1.3}, pushups:{svg,make:pushups,period:1.15}};
+})();
+
+// Tab transition: one of three animations at random (plates loading, deadlift, push-ups), then the new screen rises in
+const LOADER_ANIMS = ['plates','deadlift','pushups'];
+let navT1, navT2, navT3, lastAnim = -1, ldRaf = 0;
+function navigate(view){
+  if (view === state.view){ document.body.classList.remove('nav-open'); return; }
+  if (REDUCED) return go(view, true);
+  const L = $('#loader');
+  clearTimeout(navT1); clearTimeout(navT2); clearTimeout(navT3); cancelAnimationFrame(ldRaf);
+  let i; do { i = Math.floor(Math.random()*LOADER_ANIMS.length); } while (i === lastAnim);
+  lastAnim = i;
+  const kind = LOADER_ANIMS[i], fig = LoaderFigs[kind];
+  const art = fig ? fig.svg : `<svg class="ld-bar" viewBox="0 0 380 150" aria-hidden="true">${barbellArt(380,150,[25,20,15,10,5],[],true)}</svg>`;
+  L.style.setProperty('--sec', `var(--${SEC[view]})`);
+  L.innerHTML = `<div class="ld">${art}<div class="ld-title">${TITLES[view]}</div><div class="ld-tip">${TIPS[view]}…</div></div><div class="ld-credit"><span>Powered by</span>${SAIL_LOGO}</div>`;
+  L.classList.remove('out'); L.hidden = false;
+  if (fig) {
+    const draw = fig.make(L.querySelector('.ld-fig .fig')), t0 = performance.now();
+    const tick = now => { draw(((now - t0) / 1000 / fig.period) % 1); if (!L.hidden) ldRaf = requestAnimationFrame(tick); };
+    tick(t0);
+  }
+  // figures stay up a little longer so a full rep plays
+  const outAt = fig ? 1150 : 820, hideAt = outAt + 240;
+  navT1 = setTimeout(() => go(view, false), 300);
+  navT2 = setTimeout(() => { L.classList.add('out'); const v = $('#view'); v.classList.remove('enter'); void v.offsetWidth; v.classList.add('enter'); clearTimeout(go.t); go.t = setTimeout(()=>v.classList.remove('enter'), 900); }, outAt);
+  navT3 = setTimeout(() => { L.hidden = true; L.classList.remove('out'); L.innerHTML = ''; cancelAnimationFrame(ldRaf); }, hideAt);
+}
+
+/* ---------- Views ---------- */
+const VIEWS = {};
+const after = {};
+const kpi = (l,v,d,o={}) => `<div class="kpi" style="--k:var(--${o.k||'blue'})"><span class="ico">${o.icon?mi(o.icon):`<b>${o.txt||''}</b>`}</span><span class="eyebrow">${l}</span><span class="v">${v}</span><span class="d">${d}</span>${o.meter?`<div class="meter" style="margin-top:6px"><span style="width:${o.meter}%"></span></div>`:''}</div>`;
+const todo = (k,ic,t,s,view) => `<button data-nav="${view}" style="--k:var(--${k})"><span class="ic">${MI[ic]?mi(ic):ic}</span><span><b>${t}</b><small>${s}</small></span><span class="go">›</span></button>`;
+const phead = (k,icon,title,right='') => `<div class="panel-head"><h2 class="ph-ico" style="--k:var(--${k})"><span class="ico">${mi(icon)}</span>${title}</h2>${right}</div>`;
+
+VIEWS.dashboard = () => {
+  const f = BRANCH[state.branch].f, b = BRANCH[state.branch].n;
+  const dueSoon = MEMBERS.filter(m=>m.endIn>=0&&m.endIn<=7&&!m.autopay);
+  const high = MEMBERS.filter(m=>m.riskLevel==='high');
+  const trialsToday = state.leads.filter(l=>l.stage==='trial'&&l.due===0);
+  const low = PRODUCTS.filter(p=>p.low);
+  return `
+  ${band('dashboard',`Thursday 5 Nov · ${b}`,'Today',`84% of this month's target is in. 25 days to go.`,
+    `<svg viewBox="0 0 300 120" aria-hidden="true">${barbellArt(300,120,[25,20,15,10],[5],true)}</svg><div class="cap">Bar loaded 84% · ${inr(342600*f)} of ${inr(410000*f)}</div>`,
+    `<span class="sample-note">Sample data</span>`)}
+  <section class="kpis">
+    ${kpi('Money in this month', inr(342600*f), `<b>84%</b> of the ${inr(410000*f)} goal`, {k:'green',icon:'rupee',meter:84})}
+    ${kpi('Owed to you', inr(68400*f), `By ${Math.round(31*f)} members`, {k:'orange',icon:'watch'})}
+    ${kpi('Active members', Math.round(412*f).toLocaleString('en-IN'), `<b class="up">▲ 18</b> this month`, {k:'blue',icon:'db'})}
+    ${kpi('In the gym now', Math.round(46*f), `${Math.round(168*f)} visits so far today`, {k:'purple',icon:'kb'})}
+    ${kpi('Renewals this week', Math.round(27*f), `Worth ${inr(138000*f)}`, {k:'teal',icon:'bb'})}
+  </section>
+  <section class="grid g-main">
+    <div class="panel">
+      ${phead('blue','check','Do these today')}
+      <div class="todo">
+        ${todo('red','heart',`Call ${high.length} members likely to quit`, high.slice(0,3).map(m=>m.name.split(' ')[0]).join(', ')+' and others have stopped coming','retention')}
+        ${todo('orange','rupee',`Collect ${inr(dueSoon.reduce((a,m)=>a+m.price,0))} from ${dueSoon.length} renewals this week`,'Not on AutoPay. WhatsApp reminders are already queued for 3 days before expiry','collections')}
+        ${todo('pink','db',`${trialsToday.length} trials walking in today`, trialsToday.map(l=>`${l.name.split(' ')[0]} (${l.note.split(' · ')[0].replace('Trial today ','')})`).join(', ')+'. Assign a trainer before they arrive','leads')}
+        ${todo('purple','plate',`${low.length} products running out`, low.map(p=>`${p.n} (${p.s} left)`).join(', '),'pos')}
+        ${todo('pink','cake',`${BDAYS.length} member birthdays this week`, `${MEMBERS[BDAYS[0][0]].name.split(' ')[0]} today, ${MEMBERS[BDAYS[1][0]].name.split(' ')[0]} on ${dayLabel(BDAYS[1][1])}. Wishes go out on their own at 8:00 am`,'messages')}
+      </div>
+    </div>
+    <div class="panel">
+      ${phead('green','kb','Walking in now','<span class="pill good">Gate working</span>')}
+      <div class="feed" id="feed">${FEED.map(e=>feedRow(e)).join('')}</div>
+    </div>
+  </section>
+  <section class="grid g-2">
+    <div class="panel">
+      <div class="panel-head"><div><h2>Money in, last 6 months</h2><div class="muted" style="font-size:13px">October was your best month: ₹${(5.32*f).toFixed(2)} lakh</div></div>
+      <div class="legend"><span><i style="background:var(--c1)"></i>Memberships</span><span><i style="background:var(--c2)"></i>Personal training</span><span><i style="background:var(--c3)"></i>POS</span></div></div>
+      ${revenueChart(f)}
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div><h2>Busy hours today</h2><div class="muted" style="font-size:13px">Busiest at 7–8 am. The evening rush starts at 5 pm.</div></div>
+      <div class="legend"><span><i style="background:var(--c1)"></i>Today</span><span><i style="background:var(--surface-2);outline:1px dashed var(--ink-3)"></i>Average</span></div></div>
+      ${hourlyChart(f)}
+    </div>
+  </section>`;
+};
+
+const FEED = [
+  {n:'Vikram Reddy',t:'6:38 pm',ok:true,note:'Annual · 142 days left'},
+  {n:'Kabir Singh',t:'6:35 pm',ok:false,note:'Blocked at gate · plan expired 4 days ago'},
+  {n:'Sana Khan',t:'6:31 pm',ok:true,note:'Half-yearly · PT with Imran'},
+  {n:'Aditya Kumar',t:'6:27 pm',ok:true,note:'Monthly · AutoPay on 24 Nov'},
+  {n:'Lakshmi Narayan',t:'6:20 pm',ok:true,note:'Quarterly · booked Zumba 6:00 pm'},
+  {n:'Rahul Bansal',t:'6:14 pm',ok:true,note:'Quarterly · 16th visit this month'}
+];
+const feedRow = (e,isNew) => `<div class="${isNew?'new':''}"><span class="dot ${e.ok?'':'bad'}"></span><span style="min-width:0"><b style="font-weight:600">${esc(e.n)}</b> <span class="muted" style="font-size:13px">· ${esc(e.note)}</span></span><span class="muted num" style="font-size:13px">${e.t}</span></div>`;
+let feedTimer, feedMin = 39;
+after.dashboard = () => {
+  clearInterval(feedTimer);
+  const pool = MEMBERS.filter(m=>m.status==='active'||m.status==='expiring');
+  let k = 0;
+  feedTimer = setInterval(() => {
+    const el = $('#feed'); if (!el || state.view!=='dashboard') return clearInterval(feedTimer);
+    const m = pool[(k++*7)%pool.length]; feedMin = (feedMin+1)%60;
+    const e = {n:m.name,t:`6:${String(feedMin).padStart(2,'0')} pm`,ok:true,note:`${m.plan} · ${m.endIn} days left`};
+    el.insertAdjacentHTML('afterbegin', feedRow(e,true));
+    if (el.children.length > 12) el.lastElementChild.remove();
+  }, 6000);
+};
+
+function revenueChart(f){
+  const months = ['Jun','Jul','Aug','Sep','Oct','Nov'];
+  const data = [[3.10,.62,.41],[3.38,.70,.45],[3.55,.74,.52],[3.42,.81,.49],[3.86,.88,.58],[2.71,.43,.28]].map(r=>r.map(v=>v*f));
+  const max = Math.ceil(Math.max(...data.map(r=>r[0]+r[1]+r[2])));
+  const W=560,H=230,L=34,B=26,T=14,ph=H-B-T, bw=46, step=(W-L)/6;
+  const y = v => T + ph - v/max*ph;
+  let g = '';
+  const tickStep = max>8?2:1;
+  for (let v=0; v<=max; v+=tickStep) g += `<line class="grid-l" x1="${L}" x2="${W}" y1="${y(v)}" y2="${y(v)}"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end">${v}</text>`;
+  data.forEach((r,i) => {
+    const x = L + step*i + (step-bw)/2; let acc = 0;
+    const tot = r[0]+r[1]+r[2];
+    const op = i===5 ? 'opacity=".55"' : '';
+    r.forEach((v,j) => {
+      const y0 = y(acc), y1 = y(acc+v); acc += v;
+      g += j===2
+        ? `<path d="M${x},${y0-2} V${y1+4} q0,-4 4,-4 h${bw-8} q4,0 4,4 V${y0-2} Z" fill="var(--c3)" ${op}/>`
+        : `<rect x="${x}" y="${y1}" width="${bw}" height="${Math.max(0, y0-y1-(j?2:0))}" fill="var(--c${j+1})" ${op}/>`;
+    });
+    g += `<text class="lbl" x="${x+bw/2}" y="${y(tot)-6}" text-anchor="middle">${tot.toFixed(1)}</text>`;
+    g += `<text x="${x+bw/2}" y="${H-8}" text-anchor="middle">${months[i]}${i===5?' (MTD)':''}</text>`;
+    g += `<rect x="${x-8}" y="${T}" width="${bw+16}" height="${ph}" fill="transparent" data-tip="<b>${months[i]} 2026${i===5?' · to date':''}</b>Memberships ₹${r[0].toFixed(2)}L<br>Personal training ₹${r[1].toFixed(2)}L<br>POS ₹${r[2].toFixed(2)}L<br>Total ₹${tot.toFixed(2)}L"/>`;
+  });
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Stacked bars of monthly revenue by stream, June to November 2026">${g}</svg>`;
+}
+function hourlyChart(f){
+  const hrs = [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
+  const today = [6,22,31,19,11,6,4,5,3,4,6,12,24,15,null,null,null].map(v=>v==null?null:Math.round(v*f));
+  const avg = [5,19,28,21,12,7,5,4,4,4,7,11,22,27,23,14,6].map(v=>Math.round(v*f));
+  const max = Math.max(...avg,...today.filter(v=>v!=null)) * 1.1;
+  const W=560,H=230,L=30,B=26,T=14,ph=H-B-T, step=(W-L)/hrs.length, bw=step-8;
+  const y = v => T + ph - v/max*ph;
+  let g = '';
+  [0, Math.round(max/2/5)*5, Math.floor(max/5)*5].forEach(v => g += `<line class="grid-l" x1="${L}" x2="${W}" y1="${y(v)}" y2="${y(v)}"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end">${v}</text>`);
+  hrs.forEach((h,i) => {
+    const x = L + step*i + 4;
+    g += `<path d="M${x},${y(0)} V${y(avg[i])+4} q0,-4 4,-4 h${bw-8} q4,0 4,4 V${y(0)} Z" fill="var(--surface-2)" stroke="var(--ink-3)" stroke-dasharray="3 3" stroke-width="1"/>`;
+    if (today[i] != null) {
+      const ix = x + 5, iw = bw - 10;
+      g += `<path d="M${ix},${y(0)} V${y(today[i])+4} q0,-4 4,-4 h${iw-8} q4,0 4,4 V${y(0)} Z" fill="var(--c1)" ${i===13?'opacity=".6"':''}/>`;
+    }
+    if (i%3===0) { const lab = h<12?`${h} am`:h===12?'12 pm':`${h-12} pm`; g += `<text x="${x+bw/2}" y="${H-8}" text-anchor="middle">${lab}</text>`; }
+    const lab = h<12?`${h}–${h+1} am`:h===12?'12–1 pm':`${h-12}–${h-11} pm`;
+    g += `<rect x="${x-4}" y="${T}" width="${step}" height="${ph}" fill="transparent" data-tip="<b>${lab}</b>${today[i]==null?'Not reached yet':'Today '+today[i]+(i===13?' (in progress)':'')}<br>4-week average ${avg[i]}"/>`;
+  });
+  const px = L + step*2 + 4 + bw/2;
+  g += `<text class="lbl" x="${px}" y="${y(today[2])-8}" text-anchor="middle">${today[2]}</text>`;
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Check-ins per hour today compared with the 4-week average">${g}</svg>`;
+}
+
+/* Members */
+const STATUS_PILL = {active:['good','Active'],expiring:['warn','Expiring'],expired:['bad','Expired'],frozen:['neutral','Frozen']};
+const RISK_PILL = {high:['bad','High'],medium:['warn','Medium'],low:['good','Low']};
+const FILTERS = [['all','All'],['active','Active'],['expiring','Ending this week'],['expired','Expired'],['frozen','Frozen'],['risk','Might leave'],['dues','Owe money']];
+// One status pill that says it in words: "Ends in 6 days" beats "Expiring" plus a separate date column
+const statusPill = m => m.status==='expiring' ? `<span class="pill warn">${m.endIn===0?'Ends today':m.endIn===1?'Ends tomorrow':`Ends in ${m.endIn} days`}</span>`
+  : m.status==='expired' ? `<span class="pill bad">Expired ${-m.endIn} days ago</span>`
+  : m.status==='frozen' ? '<span class="pill neutral">Frozen</span>'
+  : `<span class="pill good">Active</span><div class="muted" style="font-size:12.5px">till ${fmtD(addDays(m.endIn))}</div>`;
+const riskText = m => m.riskLevel==='high' ? '<span class="pill bad">High</span>' : m.riskLevel==='medium' ? '<span class="pill warn">Medium</span>' : '<span class="muted">Low</span>';
+const lastVisit = m => m.last===0 ? 'Came today' : m.last===1 ? 'Came yesterday' : `Last came ${m.last} days ago`;
+const filterFn = k => m => k==='all'||(k==='risk'?m.riskLevel==='high':k==='dues'?m.dues>0:m.status===k);
+VIEWS.members = () => `
+  ${band('members','Run the gym','Members','Everyone at your gym. Tap a name to see the full picture.',art('members'),`<span class="pill good">${MEMBERS.filter(m=>m.status==='active').length} active</span><span class="pill warn">${MEMBERS.filter(m=>m.status==='expiring').length} ending this week</span><span class="pill bad">${MEMBERS.filter(m=>m.status==='expired').length} expired</span><span class="sample-note">Showing 24 of 412 (sample)</span>`)}
+  <div class="row"><input class="search" id="q" type="search" placeholder="Search name, phone or ID" value="${esc(state.q)}" aria-label="Search members"></div>
+  <div class="row" id="filters">${FILTERS.map(([k,l])=>`<button class="chip" data-filter="${k}" aria-pressed="${state.filter===k}">${l}<span class="n">${MEMBERS.filter(filterFn(k)).length}</span></button>`).join('')}</div>
+  <div class="panel" style="padding-top:8px"><div class="table-wrap"><table>
+    <thead><tr><th>Member</th><th>Plan</th><th>Status</th><th>Ends</th></tr></thead>
+    <tbody id="rows">${memberRows()}</tbody></table></div></div>`;
+function memberRows(){
+  const q = state.q.toLowerCase().replace(/\s/g,'');
+  const list = MEMBERS.filter(filterFn(state.filter)).filter(m => !q || (m.name+m.phone+m.id).toLowerCase().replace(/\s/g,'').includes(q));
+  if (!list.length) return `<tr><td colspan="4" class="muted" style="text-align:center;padding:28px">No members match. Clear the search or pick another filter.</td></tr>`;
+  return list.map(m => `<tr class="click" data-member="${m.i}" tabindex="0">
+    <td><div class="who">${avatar(m.name,m.i)}<div><b>${esc(m.name)}</b><small class="mono">${m.id} · ${m.phone}</small></div></div></td>
+    <td>${m.plan}${m.trainer?`<div class="muted" style="font-size:12.5px">PT · ${m.trainer}</div>`:''}</td>
+    <td><span class="pill ${STATUS_PILL[m.status][0]}">${STATUS_PILL[m.status][1]}</span></td>
+    <td class="num">${fmtD(addDays(m.endIn))}<div class="muted" style="font-size:12.5px">${m.endIn<0?`${-m.endIn} days ago`:`in ${m.endIn} days`}</div></td></tr>`).join('');
+}
+function openMember(i){
+  const m = MEMBERS[i], r = rng(i*97+13);
+  let heat = '';
+  for (let w=0; w<12; w++){ let col=''; for (let d=0; d<7; d++){ const daysAgo = (11-w)*7 + (6-d); const rate = daysAgo<30 ? m.v30/30 : m.p30/30 + .05; const on = daysAgo >= m.last && r() < rate*1.15 || daysAgo===m.last; col += `<i class="${on?'on':''}"></i>`; } heat += `<div class="wk">${col}</div>`; }
+  const action = m.riskLevel==='high' ? 'Call today. Offer one free PT session to restart the routine.' : m.riskLevel==='medium' ? 'Send the "We miss you" WhatsApp and book them into a class.' : 'No action needed. Ask for a referral at the next visit.';
+  const first = m.name.split(' ')[0];
+  const msg = m.endIn<0 ? `Hi ${first}, your ${m.plan} plan at Ironclad Fitness ended on ${fmtD(addDays(m.endIn))}. Pay ${inr(m.dues||m.price)} by UPI to keep your gate access: <u>pay link</u>` : `Hi ${first}, your ${m.plan} plan at Ironclad Fitness ends on ${fmtD(addDays(m.endIn))}. Renew in one tap by UPI (${inr(m.price)}) or switch on AutoPay: <u>pay link</u>`;
+  openLayer(`<div class="scrim" data-act="close"></div><aside class="drawer" role="dialog" aria-label="${esc(m.name)}">
+    <div class="drawer-head" style="--k:${avColor(m.i)}">${avatar(m.name,m.i)}<div style="min-width:0"><h2>${esc(m.name)}</h2><div class="mono muted">${m.id} · +91 ${m.phone}</div></div><button class="x" data-act="close" aria-label="Close">×</button></div>
+    <div class="row"><span class="pill ${STATUS_PILL[m.status][0]}">${STATUS_PILL[m.status][1]}</span><span class="pill ${RISK_PILL[m.riskLevel][0]}">${RISK_PILL[m.riskLevel][1]} chance of leaving</span>${m.autopay?'<span class="pill info">Auto-pay on</span>':''}</div>
+    <div class="panel"><div class="grid g-2" style="gap:12px">
+      <div><div class="eyebrow">Plan</div><b>${m.plan}</b><div class="muted">${inr(m.price)} incl. GST</div></div>
+      <div><div class="eyebrow">${m.endIn<0?'Ended':'Ends'}</div><b>${fmtD(addDays(m.endIn))} 2026</b><div class="muted">${m.endIn<0?`${-m.endIn} days ago`:`in ${m.endIn} days`}</div></div>
+      <div><div class="eyebrow">Dues</div><b class="${m.dues?'down':''}">${m.dues?inr(m.dues):'Nothing due'}</b></div>
+      <div><div class="eyebrow">Trainer</div><b>${m.trainer||'General floor'}</b></div>
+    </div></div>
+    <div class="panel"><div class="panel-head" style="margin-bottom:10px"><h3>Attendance · last 12 weeks</h3><span class="muted num">${m.v30} visits in 30 days (was ${m.p30})</span></div><div class="heat">${heat}</div></div>
+    <div class="panel"><h3 style="margin-bottom:8px">Why they might leave</h3>${m.why.length?`<ul class="reasons">${m.why.map(w=>`<li>${w}</li>`).join('')}</ul>`:'<p class="muted" style="margin:0">Visiting regularly and paid up.</p>'}<p style="margin:10px 0 0"><b>Suggested:</b> ${action}</p></div>
+    <div class="panel"><h3 style="margin-bottom:10px">WhatsApp preview</h3><div class="wa">${msg}<small>Sent from Ironclad Fitness · approved template</small></div></div>
+    <div class="row">
+      <button class="btn primary" data-act="toast" data-msg="WhatsApp reminder with UPI link sent to ${esc(first)}">Send WhatsApp reminder</button>
+      <button class="btn" data-act="toast" data-msg="Renewal invoice ICF/26-27/0${state.inv} created for ${esc(first)}">Renew plan</button>
+      <button class="btn" data-act="toast" data-msg="AutoPay mandate request sent to ${esc(first)}'s UPI app">Set up AutoPay</button>
+      <button class="btn" data-act="toast" data-msg="${esc(first)}'s membership frozen. Days are added back on resume">Freeze</button>
+    </div></aside>`);
+}
+
+/* Collections */
+VIEWS.collections = () => {
+  const dues = MEMBERS.filter(m=>m.dues>0).sort((a,b)=>overdue(b)-overdue(a));
+  const bucket = m => { const d = overdue(m); return d>60?'60+':d>30?'31–60':'0–30'; };
+  const steps = [['−3 days','before end','WhatsApp reminder with a pay link','blue'],['Day 0','end date','Pay link by WhatsApp and SMS','teal'],['+2 days','late','Front desk is asked to call','yellow'],['+5 days','late','₹200 late fee added','orange'],['+10 days','late','Gate stops letting them in','red'],['+30 days','late','Moved to the come-back list','purple']];
+  return `
+  ${band('collections','Run the gym','Dues & payments','Who owes you money, and reminders that chase it for you.',art('collections'),'<span class="sample-note">Sample data</span>')}
+  <section class="kpis" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+    ${kpi('Paid so far this month','92%',`<b class="up">▲ 6%</b> better than October`,{k:'green',icon:'chart',meter:92.4})}
+    ${kpi('Renew by themselves','168',`Members on auto-pay (41%)`,{k:'blue',icon:'rupee',meter:41})}
+    ${kpi('Reminders sent','214',`<b>58%</b> paid within a day`,{k:'teal',icon:'phone'})}
+  </section>
+  <section class="panel">${phead('orange','watch','How late are payments?','<button class="btn sm" data-act="bulk">Remind everyone up to 30 days late</button>')}
+    <div class="aging">
+      <div class="bucket" style="--k:var(--green)"><span class="eyebrow">Up to 30 days late</span>${plateSvg('var(--green)','0–30',54)}<span class="v num">${inr(41200)}</span><span class="muted">19 members</span><div class="meter"><span style="width:60%"></span></div></div>
+      <div class="bucket" style="--k:var(--orange)"><span class="eyebrow">31 to 60 days late</span>${plateSvg('var(--orange)','31–60',54)}<span class="v num">${inr(17800)}</span><span class="muted">8 members</span><div class="meter"><span style="width:26%"></span></div></div>
+      <div class="bucket" style="--k:var(--red)"><span class="eyebrow">Over 60 days late</span>${plateSvg('var(--red)','60+',54)}<span class="v num down">${inr(9400)}</span><span class="muted">4 members · may not pay</span><div class="meter"><span style="width:14%"></span></div></div>
+    </div></section>
+  <section class="grid g-main">
+    <div class="panel" style="padding-top:12px">${phead('yellow','rupee','Who owes what',`<span class="muted" style="font-size:13px">${dues.length} shown of 31</span>`)}<div class="table-wrap"><table>
+      <thead><tr><th>Member</th><th class="r">Owes</th><th>How late</th><th></th></tr></thead><tbody>
+      ${dues.map(m=>{ const sent = state.sent.has(m.i); return `<tr><td><div class="who">${avatar(m.name,m.i)}<div><b>${esc(m.name)}</b><small>${sent?'Reminded just now':overdue(m)>30?'Reminded 4 days ago':'Reminded yesterday'}</small></div></div></td><td class="r num"><b>${inr(m.dues)}</b></td><td>${overdue(m)?`<span class="pill ${overdue(m)>60?'bad':overdue(m)>30?'warn':'neutral'}">${overdue(m)} days late</span>`:`<span class="pill neutral">${m.endIn<=7?'Due '+fmtD(addDays(m.endIn)):'Instalment due'}</span>`}</td><td class="r"><button class="btn sm ${sent?'done':''}" data-act="sendlink" data-i="${m.i}">${sent?'Link sent':'Send pay link'}</button></td></tr>`; }).join('')}
+      </tbody></table></div></div>
+    <div class="panel">${phead('purple','cal','Automatic reminders','<span class="muted" style="font-size:13px">Every morning at 9</span>')}
+      <div class="steps">${steps.map((s,i)=>`<div class="step ${state.dunning[i]?'':'off'}">${plateSvg(`var(--${s[3]})`,'',24)}<div class="when">${s[0]}<small>${s[1]}</small></div><div>${s[2]}</div><button class="switch" role="switch" aria-checked="${state.dunning[i]}" aria-label="${s[2]}" data-act="dun" data-i="${i}"></button></div>`).join('')}</div></div>
+  </section>`;
+};
+
+/* Leads */
+VIEWS.leads = () => {
+  const by = k => state.leads.filter(l=>l.stage===k);
+  const sources = [['Instagram',42,11,18],['Walk-in',28,14,0],['Google',19,6,9],['Referral',12,8,0],['JustDial',9,1,6]];
+  const dueLabel = d => d==null?'':d<0?`<span class="pill bad">Call is ${-d} day${-d>1?'s':''} late</span>`:d===0?'<span class="pill warn">Call today</span>':`<span class="pill neutral">Call in ${d} day${d>1?'s':''}</span>`;
+  return `
+  ${band('leads','Grow','Enquiries','People who asked about joining. Move each card along until they join.',art('leads'),'<button class="btn primary" data-act="addLead">+ Add enquiry</button><span class="sample-note">Sample data</span>')}
+  <section class="kpis" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    ${kpi('New this month',47,'<b class="up">▲ 12</b> more than last month',{k:'pink',icon:'plate'})}
+    ${kpi('Trials that join','38%','<b class="up">Good.</b> Most gyms get 25–30%',{k:'purple',icon:'db'})}
+    ${kpi('Time to first reply','14 min','On average',{k:'blue',icon:'watch'})}
+    ${kpi('Call back today',state.leads.filter(l=>l.due!=null&&l.due<=0).length,'<b class="down">1</b> is late',{k:'orange',icon:'cal'})}
+  </section>
+  <div class="kanban">${STAGES.map(([k,l,c])=>`<div class="col" style="--k:var(--${c})"><div class="col-h"><h3>${l}</h3><span class="cnt num">${by(k).length}</span></div>
+    ${by(k).map(x=>`<div class="card"><div class="row" style="justify-content:space-between"><b>${esc(x.name)}</b><span class="src" style="--s:var(--${SRC_COL[x.src]||'slate'})">${x.src}</span></div><div class="ink2">${esc(x.want)}</div><div class="muted" style="font-size:12.5px">${esc(x.note)}</div><div class="row">${dueLabel(x.due)}</div>
+      ${k!=='joined'?`<div class="row" style="margin-top:2px"><button class="btn sm" data-act="advance" data-id="${x.id}">${k==='negotiation'?'Mark joined':'Move to '+STAGES[STAGES.findIndex(s=>s[0]===k)+1][1].toLowerCase()} →</button><button class="btn sm ghost" data-act="lost" data-id="${x.id}">Lost</button></div>`:''}</div>`).join('')}</div>`).join('')}</div>
+  <section class="panel">${phead('pink','chart','Where new members come from','<span class="muted" style="font-size:13px">Walk-ins and referrals join most, and cost nothing</span>')}<div class="table-wrap"><table>
+    <thead><tr><th>Source</th><th class="r">Enquiries</th><th class="r">Joined</th><th style="min-width:180px">Join rate</th><th class="r">Ad spend</th><th class="r">Cost per member</th></tr></thead><tbody>
+    ${sources.map(s=>{const pc=Math.round(s[2]/s[1]*100);return `<tr><td><span class="src" style="--s:var(--${SRC_COL[s[0]]})">${s[0]}</span></td><td class="r num">${s[1]}</td><td class="r num">${s[2]}</td><td><div class="row" style="flex-wrap:nowrap"><div class="meter" style="flex:1;--k:var(--${SRC_COL[s[0]]})"><span style="width:${pc}%"></span></div><span class="num" style="width:36px;text-align:right">${pc}%</span></div></td><td class="r num">${s[3]?inr(s[3]*1000):'—'}</td><td class="r num">${s[3]?inr(s[3]*1000/s[2]):'<span class="muted">Free</span>'}</td></tr>`}).join('')}
+    </tbody></table></div></section>`;
+};
+
+/* Retention */
+VIEWS.retention = () => {
+  const risky = MEMBERS.filter(m=>m.riskLevel!=='low'&&!m.frozen).sort((a,b)=>b.risk-a.risk);
+  // Average share of members still active N months after joining, across the Jun–Oct joining months
+  const stay = [['After 1 month',90],['After 2 months',81],['After 3 months',72],['After 4 months',68],['After 5 months',61]];
+  return `
+  ${band('retention','Grow','At-risk members','Members who are slipping away, and why. Call them before they quit.',art('retention'),`<span class="pill bad">${risky.filter(m=>m.riskLevel==='high').length} high risk</span><span class="pill warn">${risky.filter(m=>m.riskLevel==='medium').length} medium</span><span class="sample-note">Sample data</span>`)}
+  <section class="grid g-main">
+    <div class="panel" style="padding-top:12px">${phead('red','heart','Call these members',`<span class="muted" style="font-size:13px">Most at risk first</span>`)}<div class="table-wrap"><table>
+      <thead><tr><th>Member</th><th>Risk</th><th>Main reason</th><th></th></tr></thead><tbody>
+      ${risky.map(m=>{const on=state.winback.has(m.i);return `<tr class="click" data-member="${m.i}"><td><div class="who">${avatar(m.name,m.i)}<div><b>${esc(m.name)}</b><small>${m.phone}</small></div></div></td><td>${riskText(m)}</td><td style="white-space:normal;min-width:200px;font-size:13.5px" class="ink2">${m.why[0]||''}</td><td class="r"><button class="btn sm ${on?'done':''}" data-act="winback" data-i="${m.i}">${on?'Sent':'Message'}</button></td></tr>`}).join('')}
+      </tbody></table></div></div>
+    <div class="panel">${phead('pink','plate','Bring-back messages','<span class="muted" style="font-size:13px">How many came back</span>')}
+      <div class="steps">
+        ${camp('“We miss you” after 7 days absent','WhatsApp + free class pass',64,23,'pink')}
+        ${camp('Expired 15 days: comeback offer','₹500 off a quarterly plan',38,9,'orange')}
+        ${camp('Birthday week','Free PT session',41,17,'purple')}
+        ${camp('Referral ask at 30th visit','1 month free per friend who joins',55,12,'teal')}
+      </div></div>
+  </section>
+  <section class="panel">${phead('blue','chart','How long members stay','<span class="muted" style="font-size:13px">7 in 10 are still coming after 3 months</span>')}
+    <div style="display:flex;flex-direction:column;gap:10px">${stay.map(([l,v])=>`<div style="display:grid;grid-template-columns:120px minmax(0,1fr) 44px;gap:12px;align-items:center"><span class="ink2" style="font-size:14px">${l}</span><div class="meter" style="height:12px;--k:var(--c1)"><span style="width:${v}%"></span></div><b class="num" style="text-align:right">${v}%</b></div>`).join('')}</div></section>`;
+};
+const camp = (t,offer,sent,back,k) => `<div style="padding:11px 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px;--k:var(--${k})"><div class="row" style="justify-content:space-between;flex-wrap:nowrap"><div style="min-width:0"><b>${t}</b><div class="muted" style="font-size:13px">${offer} · sent to ${sent}</div></div><div style="text-align:right;flex:none"><div style="font-family:var(--f-display);font-weight:800;font-size:22px;line-height:1" class="num">${Math.round(back/sent*100)}%</div><div class="muted" style="font-size:12px">${back} came back</div></div></div><div class="meter" style="height:6px"><span style="width:${Math.round(back/sent*100)}%"></span></div></div>`;
+
+/* Classes & PT */
+VIEWS.classes = () => {
+  const [d,s] = state.cls; const c = CLASSES.grid[d][s];
+  const names = MEMBERS.filter(m=>m.status!=='expired').map(m=>m.name);
+  const [ck, ci] = CLS_TYPE[c[0]];
+  return `
+  ${band('classes','Run the gym','Classes & PT','This week\'s timetable. Tap a class to see who\'s booked.',art('classes'),`<div class="legend">${Object.entries(CLS_TYPE).map(([n,[k]])=>`<span><i style="background:var(--${k})"></i>${n}</span>`).join('')}</div>`)}
+  <section class="panel"><div class="table-wrap"><div class="week">
+    <div></div>${CLASSES.days.map((x,i)=>`<div class="dh ${i===3?'today':''}">${x}${i===3?' · Today':''}</div>`).join('')}
+    ${CLASSES.slots.map((t,si)=>`<div class="slot">${t}</div>${CLASSES.grid.map((day,di)=>{const k=day[si]; if(!k) return '<div class="empty-slot"></div>'; const pc=Math.round(k[3]/k[2]*100), full=k[3]>=k[2], [kc,kic]=CLS_TYPE[k[0]]; return `<button class="cls" style="--k:var(--${kc})" data-act="cls" data-d="${di}" data-s="${si}" aria-pressed="${d===di&&s===si}"><span class="ti">${mi(kic)}<b>${k[0]}</b>${full?'<span class="full-tag">Full</span>':''}</span><span class="muted">${k[1]}</span><div class="meter"><span style="width:${pc}%"></span></div><span class="num">${k[3]}/${k[2]}${k[4]?` · <b>${k[4]} waiting</b>`:''}</span></button>`}).join('')}`).join('')}
+  </div></div></section>
+  <section class="grid g-main">
+    <div class="panel">${phead(ck,ci,`${c[0]} · ${CLASSES.days[d]} Nov, ${CLASSES.slots[s]}`,`<div class="row"><button class="btn sm" data-act="toast" data-msg="Attendance sheet opened for ${c[0]} ${CLASSES.slots[s]}">Take attendance</button><button class="btn sm primary" data-act="toast" data-msg="${c[3]>=c[2]?'Class full. Walk-in added to the waitlist':'Walk-in booked into '+c[0]}">Book a walk-in</button></div>`)}
+      <p class="muted" style="margin:-6px 0 12px">Coach ${c[1]} · ${c[3]} of ${c[2]} spots booked${c[4]?` · ${c[4]} on waitlist`:''}</p>
+      <div class="row" style="gap:6px">${names.slice((d*3+s)%6, (d*3+s)%6 + Math.min(c[3],14)).map(n=>`<span class="chip" style="font-size:12.5px">${esc(n)}</span>`).join('')}${c[3]>14?`<span class="muted" style="font-size:13px">+${c[3]-14} more</span>`:''}</div></div>
+    <div class="panel">${phead('purple','db','Personal training','<span class="muted" style="font-size:13px">This week</span>')}<div class="table-wrap"><table>
+      <thead><tr><th>Trainer</th><th class="r">Sessions</th><th class="r">Clients</th><th class="r">Commission</th></tr></thead><tbody>
+      ${[['Rohit',22,9,6600,0],['Imran',19,8,5700,5],['Sneha',14,6,4200,3]].map(t=>`<tr><td><div class="who">${avatar(t[0],t[4])}<b>${t[0]}</b></div></td><td class="r num">${t[1]}</td><td class="r num">${t[2]}</td><td class="r num">${inr(t[3])}</td></tr>`).join('')}
+      </tbody></table></div>
+      <div style="margin-top:12px" class="ink2"><b>Packs running low:</b> Divya Shetty (2 of 12 left, ends 28 Nov), Sneha Kulkarni (3 of 12 left). <button class="btn sm ghost" data-act="toast" data-msg="Top-up offer sent to 2 members">Send top-up offer</button></div></div>
+  </section>`;
+};
+
+/* POS */
+VIEWS.pos = () => {
+  const total = state.cart.reduce((a,l)=>a+l.p*l.q,0), taxable = total/1.18, gst = total - taxable;
+  return `
+  ${band('pos','Run the gym','Billing & shop','Sell plans, PT and supplements. The GST bill is made for you.',art('pos'),`<span class="pill bad">${PRODUCTS.filter(p=>p.low).length} low on stock</span><span class="sample-note">Sample data</span>`)}
+  <section class="grid g-main">
+    <div class="panel">${phead('orange','plate','Tap to add','<span class="muted" style="font-size:13px">Prices include GST</span>')}
+      <div class="products">${PRODUCTS.map((p,i)=>`<button class="prod" style="--k:var(--${CAT_COL[p.c]})" data-act="add" data-i="${i}"><span class="pimg"><svg viewBox="0 0 24 24" aria-hidden="true">${PI[p.i]}</svg></span><span class="muted" style="font-size:12px">${p.c}</span><b>${p.n}</b><span class="p num">${inr(p.p)}</span>${p.s==null?'<span class="muted" style="font-size:12.5px">Service</span>':p.low?`<span class="pill bad" style="align-self:flex-start">${p.s} left</span>`:`<span class="muted" style="font-size:12.5px">${p.s} in stock</span>`}</button>`).join('')}</div></div>
+    <div class="panel">${phead('green','rupee','Bill',`<span class="mono muted">ICF/26-27/0${state.inv}</span>`)}
+      ${state.cart.length?state.cart.map((l,i)=>`<div class="cart-line"><span>${l.n}<div class="muted num" style="font-size:12.5px">${inr(l.p)} each</div></span><span class="qty"><button data-act="qty" data-i="${i}" data-d="-1" aria-label="Remove one">−</button><span class="num">${l.q}</span><button data-act="qty" data-i="${i}" data-d="1" aria-label="Add one">+</button></span><b class="num" style="min-width:72px;text-align:right">${inr(l.p*l.q)}</b></div>`).join(''):`<div class="empty-cart"><svg viewBox="0 0 200 60" aria-hidden="true">${dumbbell(100,30,1.1,'var(--steel)')}</svg><p class="muted" style="margin:0">The bar is empty. Tap a product to start a bill.</p></div>`}
+      <div class="sum num"><span class="muted">Taxable value</span><span>${inr(taxable)}</span><span class="muted">CGST 9%</span><span>${inr(gst/2)}</span><span class="muted">SGST 9%</span><span>${inr(gst/2)}</span><span class="t">Total</span><span class="t">${inr(total)}</span></div>
+      <div class="row" style="margin:12px 0">${['UPI','Cash','Card','Add to member dues'].map(p=>`<button class="chip" data-act="pay" data-p="${p}" aria-pressed="${state.pay===p}">${p}</button>`).join('')}</div>
+      <button class="btn primary" style="width:100%" data-act="charge" ${state.cart.length?'':'disabled'}>${state.cart.length?`Collect ${inr(total)} by ${state.pay}`:'Add items to collect'}</button></div>
+  </section>`;
+};
+
+/* Member app */
+function qrSvg(){
+  const r = rng(42), N=25; let s='';
+  const finder = (x,y) => `<rect x="${x}" y="${y}" width="7" height="7" fill="#111"/><rect x="${x+1}" y="${y+1}" width="5" height="5" fill="#fff"/><rect x="${x+2}" y="${y+2}" width="3" height="3" fill="#111"/>`;
+  for (let y=0;y<N;y++) for (let x=0;x<N;x++){ const inF = (x<8&&y<8)||(x>N-9&&y<8)||(x<8&&y>N-9); if(!inF && r()>.52) s+=`<rect x="${x}" y="${y}" width="1" height="1" fill="#111"/>`; }
+  return `<svg class="qr" viewBox="0 0 ${N} ${N}" aria-label="Rotating check-in code">${s}${finder(0,0)}${finder(N-7,0)}${finder(0,N-7)}</svg>`;
+}
+const STREAK_COLS = ['var(--red)','var(--blue)','var(--yellow)','var(--green)'];
+const PHONE = {
+ home:()=>`<div class="mhero"><svg class="deco" viewBox="0 0 120 60" aria-hidden="true">${dumbbell(60,30,.9,'rgba(255,255,255,.35)')}</svg><div style="font-size:12.5px;opacity:.85">Good evening</div><h2>Lakshmi</h2><div style="font-size:13px;margin-top:4px;opacity:.9">Ironclad Fitness · Indiranagar</div></div>
+   <div class="mcard" style="text-align:center"><div class="eyebrow">Show at the gate</div>${qrSvg()}<div class="muted" style="font-size:12px">Code refreshes every 30 s · works offline</div></div>
+   <div class="mcard"><div class="row" style="justify-content:space-between"><div><div class="eyebrow">Streak</div><b style="font-family:var(--f-display);font-size:24px">14 days</b></div><div style="text-align:right"><div class="eyebrow">This month</div><b style="font-family:var(--f-display);font-size:24px">13 visits</b></div></div>
+     <div class="streak">${Array.from({length:14},(_,i)=>plateSvg(STREAK_COLS[i%4],'',28)).join('')}</div></div>
+   <div class="mcard"><div class="eyebrow">Next class</div><div class="row" style="margin-top:4px"><span style="width:30px;height:30px;border-radius:8px;background:var(--pink);display:grid;place-items:center;color:#fff">${mi('music','width="17" height="17" fill="currentColor"')}</span><div><b>Zumba · today 6:00 pm</b><div class="muted" style="font-size:13px">Tara · spot 12 of 30</div></div></div></div>
+   <div class="mcard" style="border-color:var(--yellow);background:color-mix(in srgb,var(--yellow) 10%,var(--surface))"><b>Quarterly plan ends 4 Dec</b><div class="muted" style="font-size:13px;margin:2px 0 8px">Renew now or switch on AutoPay and forget about it.</div><button class="btn primary sm" data-act="ptab" data-t="pay">Renew ${inr(5400)}</button></div>`,
+ classes:()=>`<h2>Book a class</h2>${[['Zumba','Today 6:00 pm','27/30',false],['Strength','Today 7:30 pm','16/16',true],['Spin','Fri 6:30 am','11/18',false],['Yoga','Fri 7:30 am','8/24',false],['HIIT','Fri 6:00 pm','7/20',false]].map(c=>{const [k,ic]=CLS_TYPE[c[0]];return `<div class="mcard row" style="justify-content:space-between;flex-wrap:nowrap;background:color-mix(in srgb,var(--${k}) 9%,var(--surface))"><div class="row" style="flex-wrap:nowrap"><span style="width:34px;height:34px;border-radius:9px;background:var(--${k});display:grid;place-items:center;color:#fff;flex:none">${mi(ic,'width="19" height="19" fill="currentColor"')}</span><div><b>${c[0]}</b><div class="muted" style="font-size:12.5px">${c[1]} · ${c[2]}</div></div></div><button class="btn sm ${c[3]?'':'primary'}" data-act="toast" data-msg="${c[3]?'Added to the waitlist. You will get a WhatsApp if a spot opens':'Booked: '+c[0]+', '+c[1]}">${c[3]?'Waitlist':'Book'}</button></div>`}).join('')}`,
+ progress:()=>`<h2>Progress</h2><div class="mcard"><div class="eyebrow">Weight · last 12 weeks</div><svg viewBox="0 0 240 90" class="chart" style="margin-top:6px"><line class="grid-l" x1="0" x2="240" y1="80" y2="80"/><polyline fill="none" stroke="var(--teal)" stroke-width="2" points="${[71.8,71.5,71.6,71.0,70.6,70.7,70.1,69.8,69.5,69.6,69.1,68.7].map((v,i)=>`${i*21+4},${(72.5-v)*22+6}`).join(' ')}"/><circle cx="235" cy="${(72.5-68.7)*22+6}" r="4" fill="var(--teal)" stroke="var(--surface)" stroke-width="2"/><text x="4" y="12">71.8 kg</text><text x="236" y="80" text-anchor="end" class="lbl">68.7 kg</text></svg></div>
+   <div class="mcard"><div class="eyebrow">Today's workout · from Rohit</div>${[['Goblet squat','3 × 12 · 16 kg','kb','red'],['Romanian deadlift','3 × 10 · 30 kg','bb','blue'],['Dumbbell row','3 × 12 · 14 kg','db','green'],['Plank','3 × 45 s','watch','purple']].map(e=>`<div class="row" style="justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);flex-wrap:nowrap"><span class="row" style="gap:8px;flex-wrap:nowrap"><span style="color:var(--${e[3]})">${mi(e[2],'width="18" height="18" fill="currentColor"')}</span>${e[0]}</span><span class="muted num" style="font-size:13px">${e[1]}</span></div>`).join('')}</div>`,
+ pay:()=>`<h2>Payments</h2><div class="mcard"><div class="eyebrow">Renew</div><b>Quarterly · ${inr(5400)}</b><div class="muted" style="font-size:13px;margin:2px 0 10px">Incl. GST ${inr(824)} · GST invoice on WhatsApp</div><button class="btn primary sm" style="width:100%" data-act="toast" data-msg="UPI app opened for ${inr(5400)} (demo)">Pay by UPI</button><button class="btn sm" style="width:100%;margin-top:8px" data-act="toast" data-msg="AutoPay mandate: ${inr(5400)} every 3 months (demo)">Switch on AutoPay</button></div>
+   <div class="mcard"><div class="eyebrow">History</div>${[['4 Sep','Quarterly plan',5400],['18 Aug','Whey protein 1 kg',3299],['4 Jun','Quarterly plan',5400]].map(p=>`<div class="row" style="justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px"><span>${p[0]} · ${p[1]}</span><b class="num">${inr(p[2])}</b></div>`).join('')}</div>`
+};
+VIEWS.app = () => `
+  ${band('app','Product','Member app','What your members see on their phone. No app store needed.',art('app'))}
+  <div class="phone-wrap">
+    <div class="phone"><div class="screen"><div class="screen-body" id="pbody">${PHONE[state.phoneTab]()}</div>
+      <div class="ptabs">${[['home','Home','home'],['classes','Classes','cal'],['progress','Progress','chart'],['pay','Pay','rupee']].map(([k,l,ic])=>`<button data-act="ptab" data-t="${k}" aria-pressed="${state.phoneTab===k}">${mi(ic)}${l}</button>`).join('')}</div></div></div>
+    <div class="panel" style="max-width:620px"><h2 style="margin-bottom:6px">One link, no app store</h2><p class="ink2" style="margin:0 0 18px">Gyms on Pro get the app under their own name and logo.</p>
+      <div class="feat-list">
+        <div style="--k:var(--teal)"><span class="n">QR</span><span><b>Check in with a rotating code</b><br><span class="ink2">Stops screenshot-sharing. Works with turnstiles and the biometric gate.</span></span></div>
+        <div style="--k:var(--green)"><span class="n">${mi('rupee')}</span><span><b>Renew and pay dues by UPI</b><br><span class="ink2">One tap from the reminder, or a one-time AutoPay mandate.</span></span></div>
+        <div style="--k:var(--pink)"><span class="n">${mi('cal')}</span><span><b>Book classes, join waitlists</b><br><span class="ink2">Auto-promoted with a WhatsApp ping when a spot opens.</span></span></div>
+        <div style="--k:var(--blue)"><span class="n">${mi('db')}</span><span><b>Workouts and progress from their trainer</b><br><span class="ink2">Plans, weight and measurements in one place, so PT clients see results.</span></span></div>
+        <div style="--k:var(--orange)"><span class="n">${mi('heart')}</span><span><b>Refer a friend</b><br><span class="ink2">Rewards are tracked and paid automatically when the friend joins.</span></span></div>
+      </div></div>
+  </div>`;
+
+/* Compare */
+VIEWS.compare = () => {
+  const Y='<span class="mark y">✓</span>', P='<span class="mark p">◐</span>', N='<span class="mark n">✕</span>', U='<span class="mark u">?</span>';
+  const rows = [
+   ['Published price for every plan',P+'Two plans listed, top plan "contact us"',Y+'₹10k / ₹16k / ₹30k a year',Y+'Every plan, per branch'],
+   ['Pay monthly',N+'Annual only',N+'Annual only',Y+'Monthly or yearly'],
+   ['UPI AutoPay renewals',P+'Card auto-pay mentioned in a blog post',N+'Not offered',Y+'UPI e-mandate on Pro'],
+   ['WhatsApp reminders',P+'Mentioned, no detail',P+'Top plan only',Y+'Every plan'],
+   ['Step-by-step dues follow-up',N+'Not described',P+'Late fee + one-tap WhatsApp',Y+'6-step schedule, gate pause'],
+   ['Lead pipeline',P+'Lead tracking by source',N+'Not offered',Y+'Board, follow-ups, cost per member'],
+   ['Churn risk with reasons',P+'Claimed, no detail',P+'Churn report',Y+'Nightly score + reasons + win-back'],
+   ['Class booking & waitlist',Y+'Booking and class limits',N+'Not offered',Y+'Auto-promote from waitlist'],
+   ['Member app',Y+'iOS & Android apps',P+'Web portal; branded app on top plan',Y+'Installable web app on every plan'],
+   ['GST invoices by financial year',U+'Not stated',Y+'Yes',Y+'Yes, plus Tally export'],
+   ['Biometric device support',P+'"Some devices", unnamed',P+'Webhook, devices unnamed',Y+'Published device list + webhook spec'],
+   ['One-tap personalised messages',P+'"Automated SMS & email", no templates shown',P+'SMS credits on Growth, WhatsApp on top plan',Y+'12 ready-made messages by SMS + WhatsApp, DLT-ready'],
+   ['Automatic birthday wishes',N+'Not mentioned',N+'Not mentioned',Y+'Sent at 8 am on the day, with an optional gift'],
+   ['Data export',U+'Not stated',P+'On request before closing',Y+'One-click CSV, any time'],
+   ['Support',P+'24×7 claimed, contacts differ by page',P+'Email only',Y+'WhatsApp + phone, published response times']
+  ];
+  return `
+  ${band('compare','Product','Why Repwise','How Repwise compares, based on what each company shows on its website (read 5 Nov 2026).',art('compare'))}
+  <section class="panel" style="padding-top:8px"><div class="table-wrap"><table class="cmp">
+    <thead><tr><th>Capability</th><th>GymOwl</th><th>FitnessERP</th><th class="us">Repwise (planned)</th></tr></thead>
+    <tbody>${rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td class="us">${r[3]}</td></tr>`).join('')}</tbody></table></div>
+    <div class="row muted" style="font-size:12.5px;margin-top:10px;gap:16px"><span>${Y}Offered</span><span>${P}Partly, or vague</span><span>${N}Not offered</span><span>${U}Not stated</span></div></section>
+  <section><div class="panel-head"><h2>Proposed pricing</h2><span class="muted" style="font-size:13px">Excl. 18% GST · WhatsApp messages billed at Meta's rate, no markup</span></div>
+  <div class="tiers">
+    <div class="tier" style="--k:var(--green)">${plateSvg('var(--green)','10',62)}<span class="eyebrow">Starter</span><span class="price num">₹699<span style="font-size:16px" class="muted"> /month</span></span><span class="muted">or ₹6,999 a year · 1 branch</span><ul><li>Members, plans, freeze & transfer</li><li>GST billing, POS & stock</li><li>QR + biometric attendance</li><li>WhatsApp & SMS reminders</li><li>Member web app</li></ul></div>
+    <div class="tier hl" style="--k:var(--blue)">${plateSvg('var(--blue)','20',62)}<span class="eyebrow" style="color:var(--blue)">Pro · for most gyms</span><span class="price num">₹1,299<span style="font-size:16px" class="muted"> /month</span></span><span class="muted">or ₹12,999 a year · 1 branch</span><ul><li>Everything in Starter</li><li>UPI AutoPay & dues schedule</li><li>Lead pipeline & channel ROI</li><li>Churn scores & win-back</li><li>Classes, waitlists, PT commission</li><li>App under your gym's brand</li></ul></div>
+    <div class="tier" style="--k:var(--red)">${plateSvg('var(--red)','25',62)}<span class="eyebrow">Chain</span><span class="price num">₹999<span style="font-size:16px" class="muted"> /branch/month</span></span><span class="muted">3 branches or more</span><ul><li>Everything in Pro</li><li>All-branch reports, one login</li><li>Members train at any branch</li><li>API & Tally export</li><li>Named account manager</li></ul></div>
+  </div></section>`;
+};
+
+/* Messages */
+const GYM = 'Ironclad Fitness';
+const BDAYS = [[11,0],[1,2],[16,3],[9,5],[12,6],[19,7]]; // member index, days from today
+const dayLabel = d => d===0 ? 'Today' : d===1 ? 'Tomorrow' : addDays(d).toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short'});
+const TONES = ['Friendly','Formal','Short'];
+const notExpired = () => MEMBERS.filter(m=>m.status!=='expired');
+// Each message type: label, icon, colour slot, audience, WhatsApp category, and three wordings (friendly, formal, short)
+const TPL = {
+ renewal:{l:'Renewal reminder',ic:'cal',k:'red',d:'Plans ending in 7 days',cat:'Utility',aud:()=>MEMBERS.filter(m=>m.endIn>=0&&m.endIn<=7),v:[
+  'Hi {first_name}, your {plan} plan at {gym} ends on {end_date}. Renew now for {amount} and keep your streak going: {pay_link}',
+  'Dear {first_name}, your {plan} membership at {gym} is due for renewal on {end_date}. Amount payable: {amount}. Pay securely here: {pay_link}',
+  '{first_name}, your plan ends {end_date}. Renew for {amount}: {pay_link} - {gym}']},
+ ending:{l:'Membership ending',ic:'watch',k:'orange',d:'Plans ending in 2 days',cat:'Utility',aud:()=>MEMBERS.filter(m=>m.endIn>=0&&m.endIn<=2),v:[
+  'Hi {first_name}, your {plan} plan ends {ends_when}! Renew in one tap so your gate access keeps working: {pay_link}. See you on the floor - {gym}',
+  'Dear {first_name}, your {plan} membership at {gym} expires {ends_when}. Please renew to continue uninterrupted access: {pay_link}',
+  '{first_name}, plan ends {ends_when}. Renew: {pay_link} - {gym}']},
+ dues:{l:'Payment due',ic:'rupee',k:'green',d:'Members with unpaid dues',cat:'Utility',aud:()=>MEMBERS.filter(m=>m.dues>0),v:[
+  'Hi {first_name}, a payment of {amount} is pending on your {plan} plan at {gym}. Pay in one tap by UPI: {pay_link}. Please ignore if already paid.',
+  'Dear {first_name}, this is a reminder that {amount} is outstanding on your {plan} membership. Kindly pay here: {pay_link}. Team {gym}',
+  '{first_name}, {amount} due at {gym}. Pay: {pay_link}']},
+ expired:{l:'Come back offer',ic:'heart',k:'green',d:'Expired members',cat:'Marketing',aud:()=>MEMBERS.filter(m=>m.status==='expired'),v:[
+  'Hi {first_name}, we miss you at {gym}! Your plan ended on {end_date}. Come back this week and get Rs 500 off your renewal: {pay_link}',
+  'Dear {first_name}, your {plan} membership ended on {end_date}. Renew this week to receive Rs 500 off: {pay_link}. Team {gym}',
+  '{first_name}, come back to {gym}: Rs 500 off if you renew this week. {pay_link}']},
+ absent:{l:'Missed you',ic:'kb',k:'purple',d:'No visit in 7+ days',cat:'Marketing',aud:()=>notExpired().filter(m=>m.last>=7),v:[
+  'Hi {first_name}, we haven\'t seen you in {days_absent} days! Your spot is waiting. Book a class or just drop in today - {gym}',
+  'Dear {first_name}, we noticed you haven\'t visited {gym} in {days_absent} days. Your trainer is happy to help you get back on track.',
+  '{first_name}, {days_absent} days and counting. Back to the gym today? - {gym}']},
+ deal:{l:'Special offer',ic:'plate',k:'pink',d:'All active members',cat:'Marketing',all:true,aud:()=>MEMBERS.filter(m=>m.status==='active'||m.status==='expiring'),v:[
+  'Hi {first_name}! {offer} at {gym}, only till {valid_till}. Grab it before it\'s gone: {pay_link}',
+  'Dear {first_name}, we\'re pleased to offer you {offer} at {gym}. Valid until {valid_till}. Details: {pay_link}',
+  '{offer} at {gym} till {valid_till}. {pay_link}']},
+ closed:{l:'Gym closed',ic:'lock',k:'blue',d:'Everyone',cat:'Utility',all:true,aud:notExpired,v:[
+  'Hi {first_name}, {gym} will be closed on {closed_date} for {reason}. We reopen at {reopen}. One extra day has been added to your plan.',
+  'Dear member, please note {gym} will remain closed on {closed_date} due to {reason}. We will reopen at {reopen}. Your membership has been extended by one day.',
+  '{gym} closed {closed_date} ({reason}). Reopens {reopen}.']},
+ classchange:{l:'Class rescheduled',ic:'db',k:'yellow',d:'Booked: Strength 7:30 pm',cat:'Utility',aud:()=>notExpired().slice(0,16),v:[
+  'Hi {first_name}, today\'s Strength class has moved from 7:30 pm to 8:00 pm. Your spot is saved. See you there! - {gym}',
+  'Dear {first_name}, please note today\'s Strength class is rescheduled to 8:00 pm (earlier 7:30 pm). Your booking remains confirmed. {gym}',
+  '{first_name}, Strength class moved to 8:00 pm today. Spot saved. - {gym}']},
+ payment:{l:'Payment received',ic:'check',k:'teal',d:'Paid in the last 24 h',cat:'Utility',aud:()=>MEMBERS.filter(m=>m.autopay).slice(0,5),v:[
+  'Thanks {first_name}! We\'ve received {amount} for your {plan} plan. Your GST invoice: {invoice_link} - {gym}',
+  'Dear {first_name}, payment of {amount} towards your {plan} membership has been received. GST invoice: {invoice_link}. Thank you, {gym}',
+  'Paid: {amount} for {plan}. Invoice: {invoice_link} - {gym}']},
+ welcome:{l:'Welcome new member',ic:'bb',k:'red',d:'Joined this week',cat:'Utility',aud:()=>state.leads.filter(l=>l.stage==='joined').map((l,k)=>({i:24+k,id:'ICF-'+(1065+k),name:l.name,plan:l.want,endIn:90,price:PRICES[l.want]||5400,dues:0,last:0})),v:[
+  'Welcome to {gym}, {first_name}! Your {plan} plan is active. Open your member app for your check-in code and class bookings: {app_link}',
+  'Dear {first_name}, welcome to {gym}. Your {plan} membership is now active. Access your member app here: {app_link}',
+  'Welcome, {first_name}! Plan active. App: {app_link} - {gym}']},
+ festival:{l:'Festival greetings',ic:'yoga',k:'orange',d:'Everyone',cat:'Marketing',all:true,aud:notExpired,v:[
+  'Happy Diwali, {first_name}! Wishing you and your family a year full of strength and good health. Team {gym}',
+  'Dear {first_name}, warm Diwali wishes from all of us at {gym}. Please note we are closed on Sun 8 Nov.',
+  'Happy Diwali, {first_name}! - {gym}']},
+ birthday:{l:'Birthday wish',ic:'cake',k:'pink',d:'Birthdays in 7 days',cat:'Marketing',aud:()=>BDAYS.map(([i])=>MEMBERS[i]),v:[
+  'Happy birthday, {first_name}! Your gift from {gym}: {gift}. Show this message at the front desk. Have a strong year!',
+  'Dear {first_name}, everyone at {gym} wishes you a very happy birthday. Please enjoy {gift} with our compliments.',
+  'Happy birthday, {first_name}! {gift} on us - {gym}']}
+};
+Object.values(TPL).forEach((t,i) => { t.dlt = '11071730' + String(4400 + i*37); t.ph = [...new Set(t.v.join(' ').match(/\{\w+\}/g))]; });
+const MSG_INPUTS = {deal:[['offer','Offer'],['valid','Valid till']], closed:[['cdate','Closed on'],['reason','Reason',['Diwali','maintenance work','a power shutdown','a public holiday']],['reopen','Reopens at']]};
+const CHANNELS = ['SMS','WhatsApp','SMS + WhatsApp'];
+const GIFTS = ['a free PT session this week','a free protein shake','10% off your next renewal','a free guest pass for a friend'];
+const AUTOS = [['renew7','Renewal reminder','7 and 3 days before the plan ends','SMS + WhatsApp'],['endday','Membership ending','On the last day, with a payment link','WhatsApp'],['receipt','Payment received','Right after each payment, with the GST invoice','WhatsApp'],['absent','Missed you','After 7 days without a check-in','WhatsApp'],['anniv','Joining anniversary','Every year on the day they joined','SMS'],['festival','Festival greetings','Diwali, Holi, Eid, Christmas, New Year. Asks you first','SMS + WhatsApp']];
+state.msg = {type:'renewal',chan:'SMS + WhatsApp',tone:0,text:null,edited:false,prev:0,offer:'20% off annual plans',valid:'15 Nov',cdate:'Sun 8 Nov',reason:'Diwali',reopen:'6:00 am on Mon 9 Nov'};
+state.credits = 8420;
+state.bday = {on:true, gift:GIFTS[0]};
+state.autos = {renew7:true,endday:true,receipt:true,absent:true,anniv:false,festival:true};
+state.log = [['Today 9:00 am','Renewal reminder',11,'SMS + WhatsApp','100%'],['Today 8:00 am','Birthday wish',1,'WhatsApp','100%'],['Yesterday 6:10 pm','Class rescheduled',16,'SMS','100%'],['3 Nov 11:30 am','Special offer',388,'WhatsApp','97.4%'],['1 Nov 9:00 am','Payment received',64,'WhatsApp','100%']];
+
+const audCount = (T,aud) => T.all ? Math.round(412*BRANCH[state.branch].f) : aud.length;
+const msgCurrent = () => state.msg.text ?? TPL[state.msg.type].v[state.msg.tone];
+function fill(t, m){
+  const s = state.msg;
+  const map = {first_name:m.name.split(' ')[0], plan:m.plan, end_date:fmtD(addDays(m.endIn)), ends_when:m.endIn<=0?'today':m.endIn===1?'tomorrow':`in ${m.endIn} days`,
+    amount:inr(m.dues||m.price), pay_link:'rpw.link/'+m.id.replace('-',''), invoice_link:'rpw.link/inv'+(m.i+201), app_link:'rpw.link/app', gym:GYM, days_absent:m.last,
+    offer:s.offer, valid_till:s.valid, closed_date:s.cdate, reason:s.reason, reopen:s.reopen, gift:state.bday.gift};
+  return t.replace(/\{(\w+)\}/g, (x,k) => k in map ? map[k] : x);
+}
+// Indian SMS: plain text is 160 characters per SMS (153 when split); any ₹ or curly quote makes it Unicode at 70 (67)
+function smsInfo(t){ const uni = /[^\x00-\x7F]/.test(t), L = t.length, per = uni ? (L>70?67:70) : (L>160?153:160); return {uni, L, segs:Math.max(1, Math.ceil(L/per))}; }
+const bubble = (txt, chan) => `<div class="bub ${chan==='WhatsApp'?'wa':''}">${esc(txt)}<small>${chan==='WhatsApp'?'9:00 am ✓✓':'9:00 am · ICFITN'}</small></div>`;
+
+VIEWS.messages = () => {
+  const s = state.msg, T = TPL[s.type], aud = T.aud(), cnt = audCount(T,aud);
+  const nextB = BDAYS.find(b=>b[1]>0);
+  return `
+  ${band('messages','Grow','Messages','Pick a message. Every member gets their own copy by SMS or WhatsApp.',art('messages'),'<span class="pill info">Sender ID ICFITN</span><span class="pill good">DLT registered</span><span class="sample-note">Sample data</span>')}
+  <section class="kpis" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    ${kpi('Sent this month','1,284','SMS 742 · WhatsApp 542',{k:'red',icon:'chat'})}
+    ${kpi('Delivered','98.6%','18 failed: number off or on DND',{k:'blue',icon:'check'})}
+    ${kpi('SMS credits left',state.credits.toLocaleString('en-IN'),'Top up any time · ₹0.18 per SMS',{k:'yellow',icon:'plate'})}
+    ${kpi('Renewals from messages',inr(112400),'Paid within 2 days of a reminder',{k:'green',icon:'rupee'})}
+  </section>
+  <section class="panel">${phead('orange','chat','What do you want to send?','<span class="muted" style="font-size:13px">One tap writes it for everyone on the list</span>')}
+    <div class="tpls">${Object.entries(TPL).map(([k,t])=>`<button class="tpl" style="--k:var(--${t.k})" data-act="tpl" data-t="${k}" aria-pressed="${s.type===k}"><span class="ico">${mi(t.ic)}</span><b>${t.l}</b><small>${t.d}</small></button>`).join('')}</div>
+  </section>
+  <section class="grid g-main">
+    <div class="panel comp" id="composer">
+      ${phead(T.k,T.ic,T.l)}
+      <p class="ink2" style="margin:-8px 0 0">Goes to <b>${cnt.toLocaleString('en-IN')} member${cnt===1?'':'s'}</b> · ${T.all?'everyone at the gym':T.d.toLowerCase()}</p>
+      <div class="row"><span class="muted" style="font-size:13px">Send by</span>${CHANNELS.map(c=>`<button class="chip" data-act="chan" data-c="${c}" aria-pressed="${s.chan===c}">${c==='SMS + WhatsApp'?'Both':c}</button>`).join('')}</div>
+      ${(MSG_INPUTS[s.type]||[]).map(([key,label,opts])=>`<div class="lab"><span class="eyebrow">${label}</span>${opts?`<select class="select" data-mf="${key}" aria-label="${label}">${opts.map(o=>`<option ${o===s[key]?'selected':''}>${o}</option>`).join('')}</select>`:`<input class="search" data-mf="${key}" value="${esc(s[key])}" aria-label="${label}">`}</div>`).join('')}
+      <div class="field"><div class="row" style="justify-content:space-between"><span>Message</span><button class="btn sm ghost" data-act="rewrite">Write it again ↻</button></div><textarea id="msgText" rows="4" aria-label="Message">${esc(msgCurrent())}</textarea></div>
+      <div id="msgMeta" class="muted" style="font-size:13px"></div>
+      <div class="row"><button class="btn primary" data-act="sendMsg">Send now</button><button class="btn ghost" data-act="schedMsg">Schedule for tomorrow, 9 am</button></div>
+    </div>
+    <div class="panel">
+      ${phead('blue','phone','Preview',`<span class="muted" style="font-size:13px">As <b id="prevName"></b> will see it</span>`)}
+      <div class="mphone"><div class="mscreen"><div class="mtop">${s.chan==='WhatsApp'?GYM:'ICFITN'}<small>${s.chan==='WhatsApp'?'WhatsApp business account':s.chan==='SMS'?'SMS':'SMS, and the same on WhatsApp'}</small></div><div class="mthread" id="msgPreview"></div></div></div>
+      <div class="eyebrow" style="margin-top:14px">Each member gets their own message</div>
+      <div class="recips" id="msgRecips"></div>
+    </div>
+  </section>
+  <section class="grid g-2">
+    <div class="panel">${phead('pink','cake','Birthdays this week',`<button class="switch" role="switch" aria-checked="${state.bday.on}" aria-label="Send birthday wishes automatically" data-act="bday"></button>`)}
+      <p class="ink2" style="margin:-4px 0 10px">${state.bday.on?'Repwise sends a birthday wish by WhatsApp at 8:00 am on the day. Nothing for you to do.':'Automatic birthday wishes are off. Switch on to send them at 8:00 am on the day.'}</p>
+      <div class="comp"><div class="lab"><span class="eyebrow">Gift</span><select class="select" id="bGift" aria-label="Birthday gift">${GIFTS.map(g=>`<option ${g===state.bday.gift?'selected':''}>${g}</option>`).join('')}</select></div></div>
+      <div style="margin-top:8px">${BDAYS.map(([i,d])=>{const m=MEMBERS[i];return `<div class="bday">${avatar(m.name,m.i)}<div style="min-width:0"><b>${esc(m.name)}</b><small>${dayLabel(d)} · ${m.plan}</small></div>${d===0?(state.bday.on?'<span class="pill good">Sent 8:00 am</span>':'<span class="pill neutral">Not sent</span>'):(state.bday.on?'<span class="pill info">Scheduled</span>':'<span class="pill neutral">Off</span>')}</div>`}).join('')}</div>
+      ${nextB?`<div class="eyebrow" style="margin:14px 0 6px">Next one: ${MEMBERS[nextB[0]].name.split(' ')[0]}, ${dayLabel(nextB[1])}</div>${bubble(fill(TPL.birthday.v[0], MEMBERS[nextB[0]]),'WhatsApp')}`:''}
+    </div>
+    <div class="panel">${phead('red','watch','Sent automatically','<span class="muted" style="font-size:13px">Runs every morning</span>')}
+      ${AUTOS.map(([k,t,d,c])=>`<div class="auto-row ${state.autos[k]?'':'off'}" style="${state.autos[k]?'':'opacity:.55'}"><div><b>${t}</b><small>${d}</small></div><span class="pill neutral">${c}</span><button class="switch" role="switch" aria-checked="${state.autos[k]}" aria-label="${t}" data-act="auto" data-k="${k}"></button></div>`).join('')}
+    </div>
+  </section>
+  <section class="panel" style="padding-top:12px">${phead('purple','chart','Recently sent')}<div class="table-wrap"><table>
+    <thead><tr><th>When</th><th>Message</th><th class="r">Members</th><th>Channel</th><th class="r">Delivered</th></tr></thead><tbody>
+    ${state.log.map(r=>`<tr><td class="muted">${r[0]}</td><td><b>${r[1]}</b></td><td class="r num">${r[2].toLocaleString('en-IN')}</td><td>${r[3]}</td><td class="r num">${r[4]}</td></tr>`).join('')}
+    </tbody></table></div></section>`;
+};
+function updateMsg(){
+  if (!$('#msgPreview')) return;
+  const s = state.msg, T = TPL[s.type], aud = T.aud(), cnt = audCount(T,aud);
+  const m = aud[Math.min(s.prev, aud.length-1)] || MEMBERS[0];
+  const txt = fill(msgCurrent(), m), info = smsInfo(txt);
+  $('#prevName').textContent = m.name.split(' ')[0];
+  $('#msgPreview').innerHTML = bubble(txt, s.chan==='WhatsApp'?'WhatsApp':'SMS');
+  const smsPart = s.chan!=='WhatsApp' ? `${info.segs} SMS each · ${(info.segs*cnt).toLocaleString('en-IN')} credits · ` : '';
+  $('#msgMeta').innerHTML = smsPart + (s.edited ? '<span style="color:var(--warn)">Edited wording needs approval first (about a day)</span>' : 'Approved and ready to send');
+  $('#msgRecips').innerHTML = aud.slice(0,6).map((r,k)=>`<button class="recip" data-act="prev" data-i="${k}" aria-pressed="${k===Math.min(s.prev,aud.length-1)}">${avatar(r.name,r.i)}<span><b>${esc(r.name)}</b>${esc(fill(msgCurrent(), r))}</span></button>`).join('') + (cnt>6?`<div class="muted" style="font-size:13px;padding:6px">+ ${(cnt-6).toLocaleString('en-IN')} more, each with their own name and details</div>`:'') + (!aud.length?'<div class="muted" style="padding:6px">Nobody matches this message right now.</div>':'');
+}
+after.messages = updateMsg;
+
+/* ---------- Layer helpers ---------- */
+function openLayer(html){ $('#layer').innerHTML = html; const f = $('#layer').querySelector('input,button.x,button'); f && f.focus(); }
+function closeLayer(){ $('#layer').innerHTML = ''; }
+let toastT;
+function toast(msg){ let t = $('.toast'); if (t) t.remove(); t = document.createElement('div'); t.className='toast'; t.setAttribute('role','status'); t.innerHTML = `<svg viewBox="0 0 40 40" aria-hidden="true">${plateFace(20,20,19,'var(--green)','')}</svg><span></span>`; t.lastChild.textContent = msg; document.body.appendChild(t); clearTimeout(toastT); toastT = setTimeout(()=>t.remove(), 2800); }
+function leadModal(){
+  openLayer(`<div class="scrim" data-act="close"></div><form class="modal" id="leadForm"><h2>New enquiry</h2>
+    <label class="field">Name<input id="lName" required placeholder="e.g. Rohit Sharma"></label>
+    <label class="field">Phone<input id="lPhone" inputmode="tel" required placeholder="98xxx xxxxx"></label>
+    <label class="field">Came from<select id="lSrc"><option>Walk-in</option><option>Instagram</option><option>Google</option><option>Referral</option><option>JustDial</option></select></label>
+    <label class="field">Looking for<select id="lWant"><option>Monthly</option><option>Quarterly</option><option>Annual</option><option>PT 12 pack</option><option>Zumba / Yoga</option></select></label>
+    <div class="row" style="justify-content:flex-end"><button type="button" class="btn" data-act="close">Cancel</button><button class="btn primary">Add and send welcome WhatsApp</button></div></form>`);
+}
+
+/* ---------- Events ---------- */
+document.addEventListener('click', e => {
+  const nav = e.target.closest('[data-nav]'); if (nav) return navigate(nav.dataset.nav);
+  const mem = e.target.closest('[data-member]'); const a = e.target.closest('[data-act]');
+  if (mem && !a) return openMember(+mem.dataset.member);
+  const f = e.target.closest('[data-filter]'); if (f){ state.filter = f.dataset.filter; document.querySelectorAll('#filters .chip').forEach(c=>c.setAttribute('aria-pressed', c===f)); $('#rows').innerHTML = memberRows(); return; }
+  if (!a) return;
+  const act = a.dataset.act, i = +a.dataset.i;
+  switch(act){
+    case 'menu': document.body.classList.toggle('nav-open'); break;
+    case 'close': closeLayer(); break;
+    case 'toast': toast(a.dataset.msg); break;
+    case 'newMember': toast('New member form: photo, plan, ID proof, health notes (next build)'); break;
+    case 'sendlink': state.sent.add(i); a.className='btn sm done'; a.textContent='Link sent'; toast(`UPI payment link sent to ${MEMBERS[i].name} on WhatsApp`); break;
+    case 'bulk': MEMBERS.filter(m=>m.dues>0&&overdue(m)<=30).forEach(m=>state.sent.add(m.i)); go('collections'); toast('UPI links sent to 19 members with dues under 30 days'); break;
+    case 'dun': state.dunning[i] = !state.dunning[i]; a.setAttribute('aria-checked', state.dunning[i]); a.closest('.step').classList.toggle('off', !state.dunning[i]); toast(state.dunning[i]?'Step switched on':'Step switched off'); break;
+    case 'advance': { const l = state.leads.find(x=>x.id==a.dataset.id); const idx = STAGES.findIndex(s=>s[0]===l.stage); l.stage = STAGES[idx+1][0]; l.due = l.stage==='joined'?null:1; if (l.stage==='joined') l.note='Joined today'; go('leads'); toast(l.stage==='joined'?`${l.name} joined. Member profile created`:`${l.name} moved to ${STAGES[idx+1][1].toLowerCase()}`); break; }
+    case 'lost': { const l = state.leads.find(x=>x.id==a.dataset.id); state.leads = state.leads.filter(x=>x!==l); go('leads'); toast(`${l.name} marked lost. Added to the 60-day re-engage list`); break; }
+    case 'addLead': leadModal(); break;
+    case 'winback': state.winback.add(i); a.className='btn sm done'; a.textContent='Sent'; toast(`"We miss you" message sent to ${MEMBERS[i].name}`); break;
+    case 'cls': state.cls = [+a.dataset.d, +a.dataset.s]; go('classes'); break;
+    case 'add': { const p = PRODUCTS[i]; const l = state.cart.find(x=>x.n===p.n); l ? l.q++ : state.cart.push({n:p.n,p:p.p,q:1}); go('pos'); break; }
+    case 'qty': { const l = state.cart[i]; l.q += +a.dataset.d; if (l.q<=0) state.cart.splice(i,1); go('pos'); break; }
+    case 'pay': state.pay = a.dataset.p; go('pos'); break;
+    case 'charge': { const total = state.cart.reduce((s,l)=>s+l.p*l.q,0); const n = state.inv++; state.cart = []; go('pos'); toast(`${inr(total)} collected by ${state.pay}. GST invoice ICF/26-27/0${n} sent on WhatsApp`); break; }
+    case 'tpl': Object.assign(state.msg, {type:a.dataset.t, text:null, edited:false, tone:0, prev:0}); go('messages'); $('#composer').scrollIntoView({behavior:REDUCED?'auto':'smooth', block:'start'}); break;
+    case 'chan': state.msg.chan = a.dataset.c; go('messages'); break;
+    case 'tone': Object.assign(state.msg, {tone:+a.dataset.v, text:null, edited:false}); go('messages'); break;
+    case 'rewrite': Object.assign(state.msg, {tone:(state.msg.tone+1)%3, text:null, edited:false}); go('messages'); toast(`Rewritten in a ${TONES[state.msg.tone].toLowerCase()} tone`); break;
+    case 'ph': { const ta = $('#msgText'), p = a.dataset.p, st = ta.selectionStart ?? ta.value.length; ta.value = ta.value.slice(0,st) + p + ta.value.slice(ta.selectionEnd ?? st); ta.focus(); ta.selectionStart = ta.selectionEnd = st + p.length; state.msg.text = ta.value; state.msg.edited = true; updateMsg(); break; }
+    case 'prev': state.msg.prev = i; updateMsg(); break;
+    case 'sendMsg': case 'schedMsg': {
+      const s = state.msg, T = TPL[s.type], aud = T.aud(), cnt = audCount(T,aud);
+      if (!cnt) { toast('Nobody matches this message right now. Pick another one.'); break; }
+      if (s.edited) { toast(`New wording sent for DLT and WhatsApp approval. It goes to ${cnt} members once approved, usually within a day`); break; }
+      const segs = smsInfo(fill(msgCurrent(), aud[0])).segs;
+      if (act==='sendMsg' && s.chan!=='WhatsApp') state.credits -= segs*cnt;
+      state.log.unshift([act==='sendMsg'?'Just now':'Tomorrow 9:00 am (scheduled)', T.l, cnt, s.chan, act==='sendMsg'?'Sending…':'—']);
+      go('messages'); toast(act==='sendMsg' ? `${T.l} sent to ${cnt.toLocaleString('en-IN')} members by ${s.chan}` : `${T.l} scheduled for 9:00 am tomorrow`); break; }
+    case 'bday': state.bday.on = !state.bday.on; go('messages'); toast(state.bday.on?'Birthday wishes switched on':'Birthday wishes switched off'); break;
+    case 'auto': { const k = a.dataset.k; state.autos[k] = !state.autos[k]; a.setAttribute('aria-checked', state.autos[k]); a.closest('.auto-row').style.opacity = state.autos[k]?'':'.55'; toast(state.autos[k]?'Automatic message switched on':'Automatic message switched off'); break; }
+    case 'ptab': state.phoneTab = a.dataset.t; $('#pbody').innerHTML = PHONE[state.phoneTab](); $('#pbody').scrollTop = 0; document.querySelectorAll('.ptabs button').forEach(b=>b.setAttribute('aria-pressed', b.dataset.t===state.phoneTab)); break;
+  }
+});
+document.addEventListener('keydown', e => {
+  if (e.key==='Escape') { closeLayer(); document.body.classList.remove('nav-open'); }
+  if (e.key==='Enter' && e.target.matches('tr[data-member]')) openMember(+e.target.dataset.member);
+  if (e.key==='Enter' && e.target.id==='gq'){ state.q = e.target.value; state.filter = 'all'; if (state.view==='members') go('members'); else navigate('members'); }
+});
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.id==='q'){ state.q = t.value; $('#rows').innerHTML = memberRows(); }
+  if (t.id==='msgText'){ state.msg.text = t.value; state.msg.edited = true; document.querySelectorAll('[data-act="tone"]').forEach(c=>c.setAttribute('aria-pressed','false')); updateMsg(); }
+  if (t.dataset && t.dataset.mf){ state.msg[t.dataset.mf] = t.value; updateMsg(); }
+  if (t.id==='bGift'){ state.bday.gift = t.value; go('messages'); }
+});
+document.addEventListener('submit', e => {
+  if (e.target.id!=='leadForm') return; e.preventDefault();
+  const name = $('#lName').value.trim(); if (!name) return;
+  state.leads.unshift({id:Date.now(),name,src:$('#lSrc').value,stage:'enquiry',want:$('#lWant').value,due:0,note:'Added just now · welcome WhatsApp sent'});
+  go('leads'); toast(`${name} added. Welcome message sent on WhatsApp`);
+});
+$('#branch').addEventListener('change', e => { state.branch = e.target.value; if (state.view==='dashboard') go('dashboard'); toast(`Showing ${BRANCH[state.branch].n}`); });
+const tip = $('#tip');
+document.addEventListener('mousemove', e => {
+  const t = e.target.closest && e.target.closest('[data-tip]');
+  if (!t){ tip.hidden = true; return; }
+  tip.innerHTML = t.getAttribute('data-tip'); tip.hidden = false;
+  const x = Math.min(e.clientX + 14, innerWidth - tip.offsetWidth - 8);
+  tip.style.left = x + 'px'; tip.style.top = (e.clientY + 14) + 'px';
+});
+
+const start = location.hash.slice(1);
+go(VIEWS[start] ? start : 'dashboard', true);
+</script>
+
+</body></html>
